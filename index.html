@@ -1,0 +1,2050 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>「数智未来」-人工智能与大数据科普展厅</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'tech-dark': '#050b1f',
+                        'tech-card': 'rgba(16, 23, 42, 0.7)',
+                        'tech-primary': '#3b82f6',
+                        'tech-accent': '#10b981',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* ... 现有样式 ... */
+        
+        /* 按钮闪烁动画 */
+        @keyframes buttonPulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+            }
+        }
+        
+        .button-pulse {
+            animation: buttonPulse 1.5s infinite;
+        }
+        
+        /* 伦理困境按钮样式 - 与"开始探索"按钮一致 */
+        .ethics-button {
+            background: linear-gradient(to right, rgba(59, 130, 246, 0.8), rgba(16, 185, 129, 0.8));
+            color: white;
+            border: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ethics-button:hover {
+            background: linear-gradient(to right, rgba(59, 130, 246, 0.9), rgba(16, 185, 129, 0.9));
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        
+        .ethics-button::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            z-index: -1;
+            background: linear-gradient(315deg, #3b82f6, #10b981, #3b82f6);
+            background-size: 400%;
+            opacity: 0;
+            transition: 0.5s;
+        }
+        
+        .ethics-button:hover::before {
+            opacity: 0.3;
+            animation: glowing 8s linear infinite;
+        }
+        
+        @keyframes glowing {
+            0% { background-position: 0 0; }
+            50% { background-position: 400% 0; }
+            100% { background-position: 0 0; }
+        }
+    </style>
+</head>
+<body class="bg-tech-dark text-gray-100 font-sans">
+    <!-- 添加粒子背景 -->
+    <div id="particles-js" class="fixed top-0 left-0 w-full h-full z-0"></div>
+    
+    <!-- 添加网格背景效果 -->
+    <div class="fixed top-0 left-0 w-full h-full z-0 grid-background opacity-20"></div>
+    <header class="fixed top-0 left-0 right-0 z-40 bg-tech-card/80 backdrop-blur-md border-b border-tech-primary/30">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center py-4">
+            <div class="flex items-center">
+                <!-- 替换为新logo -->
+                <img src="./logo.png" alt="数族科技logo" class="h-8 mr-3">
+                <span class="text-xl font-bold gradient-text">数智未来</span>
+            </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#intro" class="text-sm text-gray-300 hover:text-tech-primary transition neon-text">展厅介绍</a>
+                <a href="#data" class="text-sm text-gray-300 hover:text-tech-primary transition neon-text">数据之洋</a>
+                <a href="#ai" class="text-sm text-gray-300 hover:text-tech-primary transition neon-text">人工智能</a>
+                <a href="#applications" class="text-sm text-gray-300 hover:text-tech-primary transition neon-text">融合应用</a>
+                <a href="#future" class="text-sm text-gray-300 hover:text-tech-primary transition neon-text">未来展望</a>
+                <a href="#ethics" class="text-sm text-gray-300 hover:text-tech-primary transition neon-text">伦理与挑战</a>
+            </nav>
+            <button id="menu-toggle" class="md:hidden text-gray-300">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-tech-card backdrop-blur-md border-b border-tech-primary/30">
+            <div class="container mx-auto px-4 py-3 space-y-3">
+                <a href="#intro" class="block text-sm text-gray-300 hover:text-tech-primary transition">展厅介绍</a>
+                <a href="#data" class="block text-sm text-gray-300 hover:text-tech-primary transition">数据之洋</a>
+                <a href="#ai" class="block text-sm text-gray-300 hover:text-tech-primary transition">人工智能</a>
+                <a href="#applications" class="block text-sm text-gray-300 hover:text-tech-primary transition">融合应用</a>
+                <a href="#future" class="block text-sm text-gray-300 hover:text-tech-primary transition">未来展望</a>
+                <a href="#ethics" class="block text-sm text-gray-300 hover:text-tech-primary transition">伦理与挑战</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="pt-16 pb-16 relative z-10">
+        <!-- 展厅介绍 -->
+        <section id="intro" class="pt-8 min-h-[calc(100vh-72px)] flex items-center highlight-section">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row items-center gap-12">
+                    <div class="w-full md:w-1/2 animate-on-scroll" data-animation="slide-right">
+                        <h2 class="text-4xl md:text-5xl font-bold mb-6 leading-tight gradient-text typewriter" data-speed="50">探索数据智能无限可能</h2>
+                        <p class="text-lg text-gray-300 mb-8">欢迎来到「数智未来」科普展厅，一场关于大数据与人工智能的沉浸式探索之旅。我们将带您揭开这些改变世界技术的神秘面纱，了解它们如何重塑我们的生活、工作与未来。</p>
+                        <div class="flex flex-wrap gap-4">
+                            <a href="#data" class="tech-button animate-pulse">开始探索</a>
+                            <button id="target-audience-btn" class="px-6 py-3 bg-transparent border border-tech-primary rounded-lg hover:bg-tech-primary/20 transition neon-border">展厅受众</button>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 animate-on-scroll" data-animation="slide-left">
+                        <div class="relative h-[400px] rounded-2xl overflow-hidden shadow-lg tech-card tilt-effect">
+                            <div class="absolute inset-0 bg-gradient-to-br from-tech-primary/20 to-tech-accent/20"></div>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="grid grid-cols-3 gap-4 p-6">
+                                    <div class="bg-tech-card backdrop-blur-sm p-4 rounded-lg shadow-sm flex flex-col items-center border border-tech-primary/30 hover:border-tech-primary transition parallax-element" data-depth="0.1">
+                                        <i data-lucide="database" class="w-8 h-8 mb-2 text-blue-500"></i>
+                                        <span class="text-sm font-medium">数据之洋</span>
+                                    </div>
+                                    <div class="bg-tech-card backdrop-blur-sm p-4 rounded-lg shadow-sm flex flex-col items-center border border-tech-primary/30 hover:border-tech-primary transition parallax-element" data-depth="0.15">
+                                        <i data-lucide="brain" class="w-8 h-8 mb-2 text-purple-500"></i>
+                                        <span class="text-sm font-medium">智能之光</span>
+                                    </div>
+                                    <div class="bg-tech-card backdrop-blur-sm p-4 rounded-lg shadow-sm flex flex-col items-center border border-tech-primary/30 hover:border-tech-primary transition parallax-element" data-depth="0.2">
+                                        <i data-lucide="merge" class="w-8 h-8 mb-2 text-indigo-500"></i>
+                                        <span class="text-sm font-medium">融合之力</span>
+                                    </div>
+                                    <div class="bg-tech-card backdrop-blur-sm p-4 rounded-lg shadow-sm flex flex-col items-center border border-tech-primary/30 hover:border-tech-primary transition parallax-element" data-depth="0.12">
+                                        <i data-lucide="microscope" class="w-8 h-8 mb-2 text-green-500"></i>
+                                        <span class="text-sm font-medium">科研创新</span>
+                                    </div>
+                                    <div class="bg-tech-card backdrop-blur-sm p-4 rounded-lg shadow-sm flex flex-col items-center border border-tech-primary/30 hover:border-tech-primary transition parallax-element" data-depth="0.18">
+                                        <i data-lucide="heart-pulse" class="w-8 h-8 mb-2 text-red-500"></i>
+                                        <span class="text-sm font-medium">医疗健康</span>
+                                    </div>
+                                    <div class="bg-tech-card backdrop-blur-sm p-4 rounded-lg shadow-sm flex flex-col items-center border border-tech-primary/30 hover:border-tech-primary transition parallax-element" data-depth="0.14">
+                                        <i data-lucide="graduation-cap" class="w-8 h-8 mb-2 text-orange-500"></i>
+                                        <span class="text-sm font-medium">个性教育</span>
+                                    </div>
+                                    <div class="bg-tech-card backdrop-blur-sm p-4 rounded-lg shadow-sm flex flex-col items-center border border-tech-primary/30 hover:border-tech-primary transition parallax-element" data-depth="0.16">
+                                        <i data-lucide="cpu" class="w-8 h-8 mb-2 text-sky-500"></i>
+                                        <span class="text-sm font-medium">智能制造</span>
+                                    </div>
+                                    <div class="bg-tech-card backdrop-blur-sm p-4 rounded-lg shadow-sm flex flex-col items-center border border-tech-primary/30 hover:border-tech-primary transition parallax-element" data-depth="0.13">
+                                        <i data-lucide="building-2" class="w-8 h-8 mb-2 text-slate-500"></i>
+                                        <span class="text-sm font-medium">城市治理</span>
+                                    </div>
+                                    <div class="bg-tech-card backdrop-blur-sm p-4 rounded-lg shadow-sm flex flex-col items-center border border-tech-primary/30 hover:border-tech-primary transition parallax-element" data-depth="0.17">
+                                        <i data-lucide="compass" class="w-8 h-8 mb-2 text-amber-500"></i>
+                                        <span class="text-sm font-medium">未来探索</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 数据之洋 -->
+        <section id="data" class="py-20 bg-tech-dark/50 backdrop-blur-sm">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 animate-on-scroll" data-animation="fade-in">
+                    <h2 class="text-3xl font-bold mb-4 gradient-text">数据之洋：信息时代新资源</h2>
+                    <p class="text-gray-300 max-w-3xl mx-auto">大数据是数字时代的核心资源，它以前所未有的规模、速度和多样性被产生、收集和分析，为人工智能提供了发展的基础。</p>
+                </div>
+                
+                <div class="tech-card p-8 shadow-lg mb-10 animate-on-scroll data-viz-area" data-animation="fade-in">
+                    <h3 class="text-2xl font-bold mb-6 text-center gradient-text">全球数据量增长趋势</h3>
+                    <p class="text-gray-300 mb-6">全球数据量正经历指数级增长，预计未来几年增长速度将进一步加快，主要驱动力包括物联网、人工智能、社交媒体和云计算的普及。以泽字节(Zettabyte, ZB)为单位衡量已成为常态，凸显了数据爆炸的规模。</p>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-tech-card backdrop-blur-md border border-tech-primary/30 rounded-lg">
+                            <thead>
+                                <tr>
+                                    <th class="py-3 px-4 text-left text-sm font-medium text-gray-300 border-b border-tech-primary/20">年份</th>
+                                    <th class="py-3 px-4 text-left text-sm font-medium text-gray-300 border-b border-tech-primary/20">估计全球数据量</th>
+                                    <th class="py-3 px-4 text-left text-sm font-medium text-gray-300 border-b border-tech-primary/20">单位</th>
+                                    <th class="py-3 px-4 text-left text-sm font-medium text-gray-300 border-b border-tech-primary/20">备注</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-tech-primary/20">
+                                <tr class="hover:bg-tech-primary/10 transition">
+                                    <td class="py-2 px-4 text-sm text-gray-300">2010</td>
+                                    <td class="py-2 px-4 text-sm text-gray-300">2</td>
+                                    <td class="py-2 px-4 text-sm text-gray-300">ZB</td>
+                                    <td class="py-2 px-4 text-sm text-gray-300">进入ZB时代</td>
+                                </tr>
+                                <tr class="hover:bg-tech-primary/10 transition">
+                                    <td class="py-2 px-4 text-sm text-gray-300">2015</td>
+                                    <td class="py-2 px-4 text-sm text-gray-300">15.5</td>
+                                    <td class="py-2 px-4 text-sm text-gray-300">ZB</td>
+                                    <td class="py-2 px-4 text-sm text-gray-300">移动互联网普及</td>
+                                </tr>
+                                <tr class="hover:bg-tech-primary/10 transition">
+                                    <td class="py-2 px-4 text-sm text-gray-300">2020</td>
+                                    <td class="py-2 px-4 text-sm text-gray-300">64.2</td>
+                                    <td class="py-2 px-4 text-sm text-gray-300">ZB</td>
+                                    <td class="py-2 px-4 text-sm text-gray-300">COVID-19加速增长</td>
+                                </tr>
+                                <tr class="hover:bg-tech-primary/10 transition">
+                                    <td class="py-2 px-4 text-sm text-gray-300">2023</td>
+                                    <td class="py-2 px-4 text-sm text-gray-300">120</td>
+                                    <td class="py-2 px-4 text-sm text-gray-300">ZB</td>
+                                    <td class="py-2 px-4 text-sm text-gray-300">AI成为新引擎</td>
+                                </tr>
+                                <tr class="hover:bg-tech-primary/10 transition">
+                                    <td class="py-2 px-4 text-sm text-gray-300">2025 (预计)</td>
+                                    <td class="py-2 px-4 text-sm text-gray-300">175-181</td>
+                                    <td class="py-2 px-4 text-sm text-gray-300">ZB</td>
+                                    <td class="py-2 px-4 text-sm text-gray-300">不同来源预测略有差异</td>
+                                </tr>
+                                <tr class="hover:bg-tech-primary/10 transition">
+                                    <td class="py-2 px-4 text-sm text-gray-300">2028 (预计)</td>
+                                    <td class="py-2 px-4 text-sm text-gray-300">> 394</td>
+                                    <td class="py-2 px-4 text-sm text-gray-300">ZB</td>
+                                    <td class="py-2 px-4 text-sm text-gray-300">增长进入快车道</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                        <div class="bg-tech-card backdrop-blur-md rounded-lg p-5 border border-tech-primary/30 animate-on-scroll" data-animation="slide-right">
+                            <h4 class="font-semibold text-lg mb-3 text-tech-primary">数据单位说明</h4>
+                            <p class="text-sm text-gray-300 mb-3">数据量的基本单位从字节(Byte)开始，依次增大为:</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-blue-900/30 text-blue-400 rounded-full text-xs border border-blue-500/30">KB</span>
+                                <span class="px-3 py-1 bg-blue-800/30 text-blue-300 rounded-full text-xs border border-blue-500/30">MB</span>
+                                <span class="px-3 py-1 bg-blue-700/30 text-blue-300 rounded-full text-xs border border-blue-500/30">GB</span>
+                                <span class="px-3 py-1 bg-blue-600/30 text-blue-200 rounded-full text-xs border border-blue-500/30">TB</span>
+                                <span class="px-3 py-1 bg-blue-500/30 text-blue-200 rounded-full text-xs border border-blue-500/30">PB</span>
+                                <span class="px-3 py-1 bg-blue-400/30 text-blue-100 rounded-full text-xs border border-blue-500/30">EB</span>
+                                <span class="px-3 py-1 bg-blue-300/30 text-blue-100 rounded-full text-xs border border-blue-500/30">ZB</span>
+                                <span class="px-3 py-1 bg-blue-200/30 text-blue-100 rounded-full text-xs border border-blue-500/30">YB</span>
+                            </div>
+                            <p class="text-sm text-gray-300 mt-3">1 ZB = 1,024 EB (艾字节)。目前全球数据量已达到ZB级别，这是一个极其庞大的数字。</p>
+                        </div>
+                        
+                        <div class="bg-tech-card backdrop-blur-md rounded-lg p-5 border border-tech-primary/30 animate-on-scroll" data-animation="slide-left">
+                            <h4 class="font-semibold text-lg mb-3 text-indigo-400">主要增长驱动因素</h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-start">
+                                    <i data-lucide="wifi" class="w-4 h-4 text-indigo-400 mr-2 mt-0.5"></i>
+                                    <span class="text-sm text-gray-300">物联网(IoT)设备的大量部署与数据生成</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i data-lucide="brain" class="w-4 h-4 text-indigo-400 mr-2 mt-0.5"></i>
+                                    <span class="text-sm text-gray-300">人工智能(AI)，特别是需要海量数据进行训练和运行的AI模型</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i data-lucide="share-2" class="w-4 h-4 text-indigo-400 mr-2 mt-0.5"></i>
+                                    <span class="text-sm text-gray-300">社交媒体平台上用户生成内容的爆炸式增长</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i data-lucide="cloud" class="w-4 h-4 text-indigo-400 mr-2 mt-0.5"></i>
+                                    <span class="text-sm text-gray-300">云计算提供的便捷、可扩展的数据存储和处理能力</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i data-lucide="refresh-cw" class="w-4 h-4 text-indigo-400 mr-2 mt-0.5"></i>
+                                    <span class="text-sm text-gray-300">数字化转型在各行各业的深入推进</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-tech-card backdrop-blur-md rounded-lg p-5 mt-6 border border-tech-primary/30 animate-on-scroll" data-animation="slide-up">
+                        <h4 class="font-semibold text-lg mb-3 text-amber-400">关键转折点</h4>
+                        <div class="relative">
+                            <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-tech-primary/30"></div>
+                            <div class="space-y-6 relative">
+                                <div class="flex">
+                                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-amber-500/80 flex items-center justify-center text-tech-dark relative z-10 mr-4 animate-pulse">
+                                        <i data-lucide="milestone" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-medium mb-1 text-amber-300">2010年：进入ZB时代</h5>
+                                        <p class="text-sm text-gray-300">全球数据量首次达到ZB级别，标志着数据规模进入了一个新的量级。</p>
+                                    </div>
+                                </div>
+                                <div class="flex">
+                                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-amber-500/80 flex items-center justify-center text-tech-dark relative z-10 mr-4 animate-pulse">
+                                        <i data-lucide="milestone" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-medium mb-1 text-amber-300">2016-2017年：增长斜率陡增</h5>
+                                        <p class="text-sm text-gray-300">年增长量开始显著加大，与移动互联网、早期物联网设备和高清视频内容的普及有关。</p>
+                                    </div>
+                                </div>
+                                <div class="flex">
+                                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-amber-500/80 flex items-center justify-center text-tech-dark relative z-10 mr-4 animate-pulse">
+                                        <i data-lucide="milestone" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-medium mb-1 text-amber-300">2019-2020年：COVID-19疫情加速增长</h5>
+                                        <p class="text-sm text-gray-300">远程工作、在线学习和家庭娱乐的普及，极大地刺激了数据创建和消耗。</p>
+                                    </div>
+                                </div>
+                                <div class="flex">
+                                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-amber-500/80 flex items-center justify-center text-tech-dark relative z-10 mr-4 animate-pulse">
+                                        <i data-lucide="milestone" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-medium mb-1 text-amber-300">2023-2024年：AI成为新的强劲引擎</h5>
+                                        <p class="text-sm text-gray-300">生成式AI的爆发成为未来数据量激增的关键催化剂，AI系统生成、处理和操作大量数据集。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <div class="tech-card rounded-xl p-6 shadow-lg border border-tech-primary/30 animate-on-scroll" data-animation="slide-right">
+                        <div class="flex items-start mb-4">
+                            <div class="w-12 h-12 bg-blue-900/30 rounded-full flex items-center justify-center mr-4 flex-shrink-0 border border-blue-500/50">
+                                <i data-lucide="bar-chart-3" class="w-6 h-6 text-blue-400"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2 gradient-text">大数据的定义与特征</h3>
+                                <p class="text-gray-300">大数据是指规模超出传统数据库工具获取、存储、管理和分析能力的数据集合。它具有以下"5V"特征：</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                            <div class="border border-tech-primary/30 rounded-lg p-4 hover:border-tech-primary transition bg-tech-card/50 backdrop-blur-sm">
+                                <h4 class="font-medium mb-2 flex items-center"><i data-lucide="boxes" class="w-4 h-4 mr-2 text-blue-400"></i>海量体量 (Volume)</h4>
+                                <p class="text-sm text-gray-300">从TB级发展到PB级，甚至EB、ZB级的数据规模</p>
+                            </div>
+                            <div class="border border-tech-primary/30 rounded-lg p-4 hover:border-tech-primary transition bg-tech-card/50 backdrop-blur-sm">
+                                <h4 class="font-medium mb-2 flex items-center"><i data-lucide="timer" class="w-4 h-4 mr-2 text-blue-400"></i>高速 (Velocity)</h4>
+                                <p class="text-sm text-gray-300">数据生成和处理的速度极快，要求实时或近实时分析</p>
+                            </div>
+                            <div class="border border-tech-primary/30 rounded-lg p-4 hover:border-tech-primary transition bg-tech-card/50 backdrop-blur-sm">
+                                <h4 class="font-medium mb-2 flex items-center"><i data-lucide="layers" class="w-4 h-4 mr-2 text-blue-400"></i>多样性 (Variety)</h4>
+                                <p class="text-sm text-gray-300">结构化、半结构化和非结构化数据的混合</p>
+                            </div>
+                            <div class="border border-tech-primary/30 rounded-lg p-4 hover:border-tech-primary transition bg-tech-card/50 backdrop-blur-sm">
+                                <h4 class="font-medium mb-2 flex items-center"><i data-lucide="check-check" class="w-4 h-4 mr-2 text-blue-400"></i>真实性 (Veracity)</h4>
+                                <p class="text-sm text-gray-300">数据质量和可靠性的保证挑战</p>
+                            </div>
+                            <div class="border border-tech-primary/30 rounded-lg p-4 hover:border-tech-primary transition bg-tech-card/50 backdrop-blur-sm sm:col-span-2">
+                                <h4 class="font-medium mb-2 flex items-center"><i data-lucide="diamond" class="w-4 h-4 mr-2 text-blue-400"></i>价值 (Value)</h4>
+                                <p class="text-sm text-gray-300">从海量数据中提取有价值的信息和洞察</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tech-card rounded-xl p-6 shadow-lg border border-tech-primary/30 animate-on-scroll" data-animation="slide-left">
+                        <div class="flex items-start mb-4">
+                            <div class="w-12 h-12 bg-green-900/30 rounded-full flex items-center justify-center mr-4 flex-shrink-0 border border-green-500/50">
+                                <i data-lucide="workflow" class="w-6 h-6 text-green-400"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2 gradient-text">大数据处理流程</h3>
+                                <p class="text-gray-300">大数据处理是一个从原始数据到有价值洞察的系统化过程，涉及以下关键环节：</p>
+                            </div>
+                        </div>
+                        <div class="relative mt-8">
+                            <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-green-500/30"></div>
+                            <div class="space-y-8 relative">
+                                <div class="flex">
+                                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-green-500/80 flex items-center justify-center text-tech-dark relative z-10 mr-4 animate-pulse">1</div>
+                                    <div>
+                                        <h4 class="font-medium mb-1 text-green-300">数据采集</h4>
+                                        <p class="text-sm text-gray-300">从各种来源（如传感器、网站、社交媒体等）收集原始数据</p>
+                                    </div>
+                                </div>
+                                <div class="flex">
+                                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-green-500/80 flex items-center justify-center text-tech-dark relative z-10 mr-4 animate-pulse">2</div>
+                                    <div>
+                                        <h4 class="font-medium mb-1 text-green-300">数据存储</h4>
+                                        <p class="text-sm text-gray-300">将数据安全地存储在适当的数据库或数据仓库中</p>
+                                    </div>
+                                </div>
+                                <div class="flex">
+                                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-green-500/80 flex items-center justify-center text-tech-dark relative z-10 mr-4 animate-pulse">3</div>
+                                    <div>
+                                        <h4 class="font-medium mb-1 text-green-300">数据清洗与准备</h4>
+                                        <p class="text-sm text-gray-300">处理缺失值、异常值，标准化和转换数据</p>
+                                    </div>
+                                </div>
+                                <div class="flex">
+                                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-green-500/80 flex items-center justify-center text-tech-dark relative z-10 mr-4 animate-pulse">4</div>
+                                    <div>
+                                        <h4 class="font-medium mb-1 text-green-300">数据分析与挖掘</h4>
+                                        <p class="text-sm text-gray-300">应用统计分析、机器学习等方法发现数据中的模式和洞察</p>
+                                    </div>
+                                </div>
+                                <div class="flex">
+                                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-green-500/80 flex items-center justify-center text-tech-dark relative z-10 mr-4 animate-pulse">5</div>
+                                    <div>
+                                        <h4 class="font-medium mb-1 text-green-300">结果可视化与应用</h4>
+                                        <p class="text-sm text-gray-300">将分析结果转化为可理解的图表和应用于决策</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-16 animate-on-scroll" data-animation="fade-in">
+                    <h3 class="text-2xl font-bold mb-6 text-center gradient-text">大数据技术生态系统</h3>
+                    <div class="tech-card rounded-xl p-8 shadow-lg border border-tech-primary/30">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                            <div class="text-center parallax-element" data-depth="0.1">
+                                <div class="w-16 h-16 mx-auto bg-blue-900/30 rounded-full flex items-center justify-center mb-3 border border-blue-500/50">
+                                    <i data-lucide="database" class="w-8 h-8 text-blue-400"></i>
+                                </div>
+                                <h4 class="font-medium mb-1 text-blue-300">数据存储</h4>
+                                <p class="text-xs text-gray-400">HDFS, HBase, MongoDB</p>
+                            </div>
+                            <div class="text-center parallax-element" data-depth="0.15">
+                                <div class="w-16 h-16 mx-auto bg-purple-900/30 rounded-full flex items-center justify-center mb-3 border border-purple-500/50">
+                                    <i data-lucide="cpu" class="w-8 h-8 text-purple-400"></i>
+                                </div>
+                                <h4 class="font-medium mb-1 text-purple-300">计算框架</h4>
+                                <p class="text-xs text-gray-400">Hadoop, Spark, Flink</p>
+                            </div>
+                            <div class="text-center parallax-element" data-depth="0.12">
+                                <div class="w-16 h-16 mx-auto bg-green-900/30 rounded-full flex items-center justify-center mb-3 border border-green-500/50">
+                                    <i data-lucide="bar-chart-2" class="w-8 h-8 text-green-400"></i>
+                                </div>
+                                <h4 class="font-medium mb-1 text-green-300">数据分析</h4>
+                                <p class="text-xs text-gray-400">Hive, Pig, Presto</p>
+                            </div>
+                            <div class="text-center parallax-element" data-depth="0.18">
+                                <div class="w-16 h-16 mx-auto bg-amber-900/30 rounded-full flex items-center justify-center mb-3 border border-amber-500/50">
+                                    <i data-lucide="activity" class="w-8 h-8 text-amber-400"></i>
+                                </div>
+                                <h4 class="font-medium mb-1 text-amber-300">流处理</h4>
+                                <p class="text-xs text-gray-400">Kafka, Storm, Samza</p>
+                            </div>
+                            <div class="text-center parallax-element" data-depth="0.14">
+                                <div class="w-16 h-16 mx-auto bg-red-900/30 rounded-full flex items-center justify-center mb-3 border border-red-500/50">
+                                    <i data-lucide="workflow" class="w-8 h-8 text-red-400"></i>
+                                </div>
+                                <h4 class="font-medium mb-1 text-red-300">工作流调度</h4>
+                                <p class="text-xs text-gray-400">Airflow, Oozie, Azkaban</p>
+                            </div>
+                            <div class="text-center parallax-element" data-depth="0.16">
+                                <div class="w-16 h-16 mx-auto bg-indigo-900/30 rounded-full flex items-center justify-center mb-3 border border-indigo-500/50">
+                                    <i data-lucide="search" class="w-8 h-8 text-indigo-400"></i>
+                                </div>
+                                <h4 class="font-medium mb-1 text-indigo-300">搜索引擎</h4>
+                                <p class="text-xs text-gray-400">Elasticsearch, Solr</p>
+                            </div>
+                            <div class="text-center parallax-element" data-depth="0.13">
+                                <div class="w-16 h-16 mx-auto bg-cyan-900/30 rounded-full flex items-center justify-center mb-3 border border-cyan-500/50">
+                                    <i data-lucide="shield" class="w-8 h-8 text-cyan-400"></i>
+                                </div>
+                                <h4 class="font-medium mb-1 text-cyan-300">安全与治理</h4>
+                                <p class="text-xs text-gray-400">Ranger, Knox, Atlas</p>
+                            </div>
+                            <div class="text-center parallax-element" data-depth="0.17">
+                                <div class="w-16 h-16 mx-auto bg-emerald-900/30 rounded-full flex items-center justify-center mb-3 border border-emerald-500/50">
+                                    <i data-lucide="line-chart" class="w-8 h-8 text-emerald-400"></i>
+                                </div>
+                                <h4 class="font-medium mb-1 text-emerald-300">可视化</h4>
+                                <p class="text-xs text-gray-400">Tableau, PowerBI, Superset</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-10 bg-tech-card/70 backdrop-blur-sm p-6 rounded-lg border border-tech-primary/30">
+                            <h4 class="font-semibold text-lg mb-4 text-center text-gray-200">大数据处理架构演进</h4>
+                            <div class="relative">
+                                <div class="absolute left-1/2 top-0 bottom-0 w-0.5 bg-tech-primary/30 transform -translate-x-1/2"></div>
+                                <div class="space-y-12 relative">
+                                    <div class="flex flex-col md:flex-row md:items-center">
+                                        <div class="md:w-5/12 text-right pr-8 md:order-1 order-2">
+                                            <h5 class="font-medium text-tech-primary mb-2">批处理时代 (2000s-2010s)</h5>
+                                            <p class="text-sm text-gray-300">以Hadoop为代表的MapReduce批处理模式，处理离线数据，适合大规模数据处理但延迟较高。</p>
+                                        </div>
+                                        <div class="md:w-2/12 flex justify-center items-center mb-4 md:mb-0 order-1 md:order-2">
+                                            <div class="w-10 h-10 rounded-full bg-blue-500/80 flex items-center justify-center text-tech-dark relative z-10">
+                                                <i data-lucide="hourglass" class="w-5 h-5"></i>
+                                            </div>
+                                        </div>
+                                        <div class="md:w-5/12 md:order-3 order-3"></div>
+                                    </div>
+                                    
+                                    <div class="flex flex-col md:flex-row md:items-center">
+                                        <div class="md:w-5/12 md:order-1 order-3"></div>
+                                        <div class="md:w-2/12 flex justify-center items-center mb-4 md:mb-0 order-1 md:order-2">
+                                            <div class="w-10 h-10 rounded-full bg-purple-500/80 flex items-center justify-center text-tech-dark relative z-10">
+                                                <i data-lucide="zap" class="w-5 h-5"></i>
+                                            </div>
+                                        </div>
+                                        <div class="md:w-5/12 pl-8 order-2 md:order-3">
+                                            <h5 class="font-medium text-purple-300 mb-2">流处理兴起 (2010s中期)</h5>
+                                            <p class="text-sm text-gray-300">Storm、Kafka等流处理技术出现，实现了实时或近实时数据处理，满足了低延迟需求。</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex flex-col md:flex-row md:items-center">
+                                        <div class="md:w-5/12 text-right pr-8 md:order-1 order-2">
+                                            <h5 class="font-medium text-green-300 mb-2">统一计算引擎 (2010s后期)</h5>
+                                            <p class="text-sm text-gray-300">Spark、Flink等框架实现了批处理和流处理的统一，提高了开发效率和资源利用率。</p>
+                                        </div>
+                                        <div class="md:w-2/12 flex justify-center items-center mb-4 md:mb-0 order-1 md:order-2">
+                                            <div class="w-10 h-10 rounded-full bg-green-500/80 flex items-center justify-center text-tech-dark relative z-10">
+                                                <i data-lucide="layers" class="w-5 h-5"></i>
+                                            </div>
+                                        </div>
+                                        <div class="md:w-5/12 md:order-3 order-3"></div>
+                                    </div>
+                                    
+                                    <div class="flex flex-col md:flex-row md:items-center">
+                                        <div class="md:w-5/12 md:order-1 order-3"></div>
+                                        <div class="md:w-2/12 flex justify-center items-center mb-4 md:mb-0 order-1 md:order-2">
+                                            <div class="w-10 h-10 rounded-full bg-amber-500/80 flex items-center justify-center text-tech-dark relative z-10">
+                                                <i data-lucide="cloud" class="w-5 h-5"></i>
+                                            </div>
+                                        </div>
+                                        <div class="md:w-5/12 pl-8 order-2 md:order-3">
+                                            <h5 class="font-medium text-amber-300 mb-2">云原生大数据 (2020s)</h5>
+                                            <p class="text-sm text-gray-300">基于Kubernetes的云原生大数据架构，实现了弹性伸缩、资源隔离和多租户支持，降低了运维成本。</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex flex-col md:flex-row md:items-center">
+                                        <div class="md:w-5/12 text-right pr-8 md:order-1 order-2">
+                                            <h5 class="font-medium text-red-300 mb-2">AI驱动的数据处理 (现在-未来)</h5>
+                                            <p class="text-sm text-gray-300">AI与大数据深度融合，自动化数据处理流程，智能化数据分析和决策，实现数据价值最大化。</p>
+                                        </div>
+                                        <div class="md:w-2/12 flex justify-center items-center mb-4 md:mb-0 order-1 md:order-2">
+                                            <div class="w-10 h-10 rounded-full bg-red-500/80 flex items-center justify-center text-tech-dark relative z-10">
+                                                <i data-lucide="brain" class="w-5 h-5"></i>
+                                            </div>
+                                        </div>
+                                        <div class="md:w-5/12 md:order-3 order-3"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="tech-card rounded-xl p-6 shadow-lg border border-tech-primary/30 animate-on-scroll" data-animation="fade-in">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-indigo-900/30 rounded-full flex items-center justify-center mr-3 flex-shrink-0 border border-indigo-500/50">
+                                <i data-lucide="trending-up" class="w-5 h-5 text-indigo-400"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold gradient-text">大数据的商业价值</h3>
+                        </div>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-indigo-400 mr-2 flex-shrink-0 mt-0.5"></i>
+                                <span class="text-sm text-gray-300">提升决策质量与速度，实现数据驱动的精准决策</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-indigo-400 mr-2 flex-shrink-0 mt-0.5"></i>
+                                <span class="text-sm text-gray-300">深入了解客户需求与行为，提供个性化服务</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-indigo-400 mr-2 flex-shrink-0 mt-0.5"></i>
+                                <span class="text-sm text-gray-300">优化业务流程，提高运营效率，降低成本</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-indigo-400 mr-2 flex-shrink-0 mt-0.5"></i>
+                                <span class="text-sm text-gray-300">发现新的市场机会，创造创新产品与服务</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-indigo-400 mr-2 flex-shrink-0 mt-0.5"></i>
+                                <span class="text-sm text-gray-300">提前预测风险，增强风险管理能力</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tech-card rounded-xl p-6 shadow-lg border border-tech-primary/30 animate-on-scroll" data-animation="fade-in" data-delay="200">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-red-900/30 rounded-full flex items-center justify-center mr-3 flex-shrink-0 border border-red-500/50">
+                                <i data-lucide="alert-triangle" class="w-5 h-5 text-red-400"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold gradient-text">大数据面临的挑战</h3>
+                        </div>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i data-lucide="shield-alert" class="w-5 h-5 text-red-400 mr-2 flex-shrink-0 mt-0.5"></i>
+                                <span class="text-sm text-gray-300">数据安全与隐私保护问题日益突出</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-lucide="filter" class="w-5 h-5 text-red-400 mr-2 flex-shrink-0 mt-0.5"></i>
+                                <span class="text-sm text-gray-300">数据质量参差不齐，影响分析结果可靠性</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-lucide="users" class="w-5 h-5 text-red-400 mr-2 flex-shrink-0 mt-0.5"></i>
+                                <span class="text-sm text-gray-300">专业人才短缺，技能要求不断提高</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-lucide="puzzle" class="w-5 h-5 text-red-400 mr-2 flex-shrink-0 mt-0.5"></i>
+                                <span class="text-sm text-gray-300">技术复杂度高，集成与维护成本大</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-lucide="scale" class="w-5 h-5 text-red-400 mr-2 flex-shrink-0 mt-0.5"></i>
+                                <span class="text-sm text-gray-300">法律法规与伦理约束不断完善</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tech-card rounded-xl p-6 shadow-lg border border-tech-primary/30 animate-on-scroll" data-animation="fade-in" data-delay="400">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-emerald-900/30 rounded-full flex items-center justify-center mr-3 flex-shrink-0 border border-emerald-500/50">
+                                <i data-lucide="lightbulb" class="w-5 h-5 text-emerald-400"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold gradient-text">大数据未来趋势</h3>
+                        </div>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i data-lucide="brain" class="w-5 h-5 text-emerald-400 mr-2 flex-shrink-0 mt-0.5"></i>
+                                <span class="text-sm text-gray-300">AI与大数据深度融合，实现智能化数据处理</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-lucide="lock" class="w-5 h-5 text-emerald-400 mr-2 flex-shrink-0 mt-0.5"></i>
+                                <span class="text-sm text-gray-300">隐私计算技术普及，平衡数据使用与隐私保护</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-lucide="cloud" class="w-5 h-5 text-emerald-400 mr-2 flex-shrink-0 mt-0.5"></i>
+                                <span class="text-sm text-gray-300">云原生架构成为主流，降低使用门槛</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-lucide="zap" class="w-5 h-5 text-emerald-400 mr-2 flex-shrink-0 mt-0.5"></i>
+                                <span class="text-sm text-gray-300">实时分析需求增长，流处理技术持续发展</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-lucide="globe" class="w-5 h-5 text-emerald-400 mr-2 flex-shrink-0 mt-0.5"></i>
+                                <span class="text-sm text-gray-300">数据资产化、数据要素市场逐步成熟</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 人工智能 -->
+        <section id="ai" class="py-20 bg-tech-dark text-gray-300">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 animate-on-scroll" data-animation="fade-in">
+                    <h2 class="text-3xl font-bold mb-4 gradient-text">人工智能：模拟思维新革命</h2>
+                    <p class="text-gray-300 max-w-3xl mx-auto">人工智能是赋予机器模拟人类智能行为能力的科学与技术，它正深刻改变着我们的世界，让我们了解AI的发展历程与核心技术。</p>
+                </div>
+               
+                <div class="tech-card rounded-xl p-8 shadow-lg border border-tech-primary/30 mb-16 animate-on-scroll" data-animation="fade-in">
+                    <div class="space-y-12">
+                        <!-- 第一部分：AI定义与能力范畴 -->
+                        <div>
+                            <h3 class="text-2xl font-bold mb-6 gradient-text">什么是人工智能？</h3>
+                            <p class="text-gray-300 mb-8">简单来说，人工智能是研究、开发用于模拟、延伸和扩展人类智能的理论、方法、技术及应用系统的一门新的技术科学。它的目标是让机器能够像人一样思考、学习、感知、理解语言、解决问题，甚至进行创造。</p>
+                            
+                            <!-- AI能力范畴图 -->
+                            <!-- 创建一个AI能力图表，使所有元素均匀围绕中心 -->
+                            <div class="relative w-full max-w-3xl mx-auto h-96 my-12">
+                                <!-- 中心元素 -->
+                                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-blue-900/40 rounded-full flex items-center justify-center border border-blue-500/50 z-10 glow-effect">
+                                    <span class="text-2xl font-bold text-blue-300">AI能力</span>
+                                </div>
+                                
+                                <!-- 围绕的能力标签 - 使用绝对定位和旋转角度确保均匀分布 -->
+                                <!-- 顶部 - 运动控制 -->
+                                <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-0">
+                                    <div class="bg-green-900/40 text-green-300 px-6 py-3 rounded-full border border-green-500/50 flex items-center space-x-2 whitespace-nowrap">
+                                        <i data-lucide="move" class="w-5 h-5"></i>
+                                        <span>运动控制</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- 右上 - 视觉感知 -->
+                                <div class="absolute top-1/4 right-0 transform translate-y-(-1/4)">
+                                    <div class="bg-blue-900/40 text-blue-300 px-6 py-3 rounded-full border border-blue-500/50 flex items-center space-x-2 whitespace-nowrap">
+                                        <i data-lucide="eye" class="w-5 h-5"></i>
+                                        <span>视觉感知</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- 右下 - 听觉感知 -->
+                                <div class="absolute bottom-1/4 right-0 transform translate-y-1/4">
+                                    <div class="bg-purple-900/40 text-purple-300 px-6 py-3 rounded-full border border-purple-500/50 flex items-center space-x-2 whitespace-nowrap">
+                                        <i data-lucide="ear" class="w-5 h-5"></i>
+                                        <span>听觉感知</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- 底部 - 学习能力 -->
+                                <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-0">
+                                    <div class="bg-emerald-900/40 text-emerald-300 px-6 py-3 rounded-full border border-emerald-500/50 flex items-center space-x-2 whitespace-nowrap">
+                                        <i data-lucide="brain" class="w-5 h-5"></i>
+                                        <span>学习能力</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- 左下 - 推理决策 -->
+                                <div class="absolute bottom-1/4 left-0 transform translate-y-1/4">
+                                    <div class="bg-amber-900/40 text-amber-300 px-6 py-3 rounded-full border border-amber-500/50 flex items-center space-x-2 whitespace-nowrap">
+                                        <i data-lucide="lightbulb" class="w-5 h-5"></i>
+                                        <span>推理决策</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- 左上 - 语言处理 -->
+                                <div class="absolute top-1/4 left-0 transform translate-y-(-1/4)">
+                                    <div class="bg-cyan-900/40 text-cyan-300 px-6 py-3 rounded-full border border-cyan-500/50 flex items-center space-x-2 whitespace-nowrap">
+                                        <i data-lucide="message-square" class="w-5 h-5"></i>
+                                        <span>语言处理</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 第二部分：AI实现路径 -->
+                        <div>
+                            <h3 class="text-2xl font-bold mb-6 gradient-text">AI如何实现"智能"？</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <!-- 符号主义 -->
+<!-- 找到符号主义部分，并增加内容 -->
+                                <div class="tech-card rounded-xl p-6 shadow-lg border border-tech-primary/30 animate-on-scroll" data-animation="slide-right">
+                                    <div class="flex items-start mb-4">
+                                        <div class="w-12 h-12 bg-indigo-900/30 rounded-full flex items-center justify-center mr-4 flex-shrink-0 border border-indigo-500/50">
+                                            <i data-lucide="brain-circuit" class="w-6 h-6 text-indigo-400"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-xl font-semibold mb-2 gradient-text">符号主义 (Symbolic AI)</h3>
+                                            <p class="text-gray-300">符号主义是人工智能的早期范式，基于逻辑推理和符号操作，试图通过显式规则和知识表示来模拟人类思维过程。</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 增加的内容开始 -->
+                                    <div class="mt-4 space-y-4">
+                                        <div class="border border-tech-primary/30 rounded-lg p-4 hover:border-indigo-400 transition bg-tech-card/50 backdrop-blur-sm">
+                                            <h4 class="font-medium mb-2 flex items-center text-indigo-300"><i data-lucide="history" class="w-4 h-4 mr-2"></i>历史起源</h4>
+                                            <p class="text-sm text-gray-300">符号主义起源于20世纪50-60年代，是人工智能研究的第一个主要范式。它受到了数理逻辑、语言学和认知心理学的影响，代表人物包括约翰·麦卡锡、马文·明斯基和艾伦·纽厄尔等AI先驱。1956年的达特茅斯会议被视为符号主义AI的正式诞生。</p>
+                                        </div>
+                                        
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            <div class="border border-tech-primary/30 rounded-lg p-4 hover:border-indigo-400 transition bg-tech-card/50 backdrop-blur-sm">
+                                                <h4 class="font-medium mb-2 flex items-center text-indigo-300"><i data-lucide="puzzle" class="w-4 h-4 mr-2"></i>核心理念</h4>
+                                                <p class="text-sm text-gray-300">符号主义认为智能源于符号操作，人类思维可以被视为对符号的处理。它假设知识可以通过符号和规则明确表示，推理过程则是对这些符号的操作。这种方法强调显式知识表示和基于规则的推理。</p>
+                                            </div>
+                                            
+                                            <div class="border border-tech-primary/30 rounded-lg p-4 hover:border-indigo-400 transition bg-tech-card/50 backdrop-blur-sm">
+                                                <h4 class="font-medium mb-2 flex items-center text-indigo-300"><i data-lucide="code" class="w-4 h-4 mr-2"></i>技术实现</h4>
+                                                <p class="text-sm text-gray-300">符号主义AI主要通过专家系统、逻辑编程语言(如Prolog和LISP)、产生式规则系统和形式化知识表示来实现。这些系统使用IF-THEN规则、一阶谓词逻辑和语义网络等方法来表示和处理知识。</p>
+                                            </div>
+                                        </div>
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            <div class="border border-tech-primary/30 rounded-lg p-4 hover:border-indigo-400 transition bg-tech-card/50 backdrop-blur-sm">
+                                                <h4 class="font-medium mb-2 flex items-center text-indigo-300"><i data-lucide="thumbs-up" class="w-4 h-4 mr-2"></i>优势</h4>
+                                                <ul class="space-y-1 text-sm text-gray-300">
+                                                    <li class="flex items-start">
+                                                        <i data-lucide="check" class="w-3 h-3 text-indigo-400 mr-1 mt-1"></i>
+                                                        <span>推理过程可解释、透明</span>
+                                                    </li>
+                                                    <li class="flex items-start">
+                                                        <i data-lucide="check" class="w-3 h-3 text-indigo-400 mr-1 mt-1"></i>
+                                                        <span>适合处理结构化知识和逻辑推理</span>
+                                                    </li>
+                                                    <li class="flex items-start">
+                                                        <i data-lucide="check" class="w-3 h-3 text-indigo-400 mr-1 mt-1"></i>
+                                                        <span>能够整合领域专家知识</span>
+                                                    </li>
+                                                    <li class="flex items-start">
+                                                        <i data-lucide="check" class="w-3 h-3 text-indigo-400 mr-1 mt-1"></i>
+                                                        <span>在特定领域问题上表现出色</span>
+                                                    </li>
+                                                    <li class="flex items-start">
+                                                        <i data-lucide="check" class="w-3 h-3 text-indigo-400 mr-1 mt-1"></i>
+                                                        <span>不需要大量训练数据</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            
+                                            <div class="border border-tech-primary/30 rounded-lg p-4 hover:border-indigo-400 transition bg-tech-card/50 backdrop-blur-sm">
+                                                <h4 class="font-medium mb-2 flex items-center text-indigo-300"><i data-lucide="thumbs-down" class="w-4 h-4 mr-2"></i>局限性</h4>
+                                                <ul class="space-y-1 text-sm text-gray-300">
+                                                    <li class="flex items-start">
+                                                        <i data-lucide="x" class="w-3 h-3 text-red-400 mr-1 mt-1"></i>
+                                                        <span>难以处理不确定性和模糊性</span>
+                                                    </li>
+                                                    <li class="flex items-start">
+                                                        <i data-lucide="x" class="w-3 h-3 text-red-400 mr-1 mt-1"></i>
+                                                        <span>知识获取瓶颈（需手动编码规则）</span>
+                                                    </li>
+                                                    <li class="flex items-start">
+                                                        <i data-lucide="x" class="w-3 h-3 text-red-400 mr-1 mt-1"></i>
+                                                        <span>缺乏学习能力和适应性</span>
+                                                    </li>
+                                                    <li class="flex items-start">
+                                                        <i data-lucide="x" class="w-3 h-3 text-red-400 mr-1 mt-1"></i>
+                                                        <span>在感知任务上表现不佳</span>
+                                                    </li>
+                                                    <li class="flex items-start">
+                                                        <i data-lucide="x" class="w-3 h-3 text-red-400 mr-1 mt-1"></i>
+                                                        <span>难以扩展到复杂的现实世界问题</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 增加的内容结束 -->
+                                </div>
+                                
+                                <!-- 连接主义 -->
+                                <div class="bg-tech-card/70 backdrop-blur-sm rounded-lg p-6 border border-tech-primary/30">
+                                    <h4 class="font-semibold text-lg mb-2 flex items-center">
+                                        <span class="w-6 h-6 rounded-full bg-purple-900/30 text-purple-300 flex items-center justify-center mr-2 border border-purple-500/50">2</span>
+                                        <span class="text-purple-300">连接主义 (Connectionism)</span>
+                                    </h4>
+                                    <p class="text-gray-300 mb-3"><strong>理念：</strong>受人脑神经网络启发，认为智能是从经验（数据）中学习而来的。通过构建模拟神经元连接的网络模型，让机器自动从数据中发现模式和规律。</p>
+                                    
+                                    <div class="border-l-4 border-purple-500/50 pl-4 mb-3">
+                                        <h5 class="font-medium mb-2 text-purple-200">核心 - 机器学习 (Machine Learning)</h5>
+                                        <p class="text-sm text-gray-300 mb-3">让计算机无需明确编程即可具备学习能力。</p>
+                                        
+                                        <!-- 机器学习流程图 -->
+                                        <div class="flex items-center justify-between mb-4 bg-tech-dark/50 p-3 rounded-lg border border-tech-primary/20">
+                                            <div class="text-center px-2">
+                                                <div class="w-12 h-12 bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-1 border border-blue-500/50">
+                                                    <i data-lucide="database" class="w-6 h-6 text-blue-400"></i>
+                                                </div>
+                                                <span class="text-xs text-blue-300">数据输入</span>
+                                            </div>
+                                            <i data-lucide="arrow-right" class="w-4 h-4 text-gray-400"></i>
+                                            <div class="text-center px-2">
+                                                <div class="w-12 h-12 bg-indigo-900/30 rounded-full flex items-center justify-center mx-auto mb-1 border border-indigo-500/50">
+                                                    <i data-lucide="settings" class="w-6 h-6 text-indigo-400"></i>
+                                                </div>
+                                                <span class="text-xs text-indigo-300">算法训练</span>
+                                            </div>
+                                            <i data-lucide="arrow-right" class="w-4 h-4 text-gray-400"></i>
+                                            <div class="text-center px-2">
+                                                <div class="w-12 h-12 bg-purple-900/30 rounded-full flex items-center justify-center mx-auto mb-1 border border-purple-500/50">
+                                                    <i data-lucide="box" class="w-6 h-6 text-purple-400"></i>
+                                                </div>
+                                                <span class="text-xs text-purple-300">模型生成</span>
+                                            </div>
+                                            <i data-lucide="arrow-right" class="w-4 h-4 text-gray-400"></i>
+                                            <div class="text-center px-2">
+                                                <div class="w-12 h-12 bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-1 border border-green-500/50">
+                                                    <i data-lucide="zap" class="w-6 h-6 text-green-400"></i>
+                                                </div>
+                                                <span class="text-xs text-green-300">预测应用</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- 机器学习类型 -->
+                                        <div class="space-y-3">
+                                            <div class="bg-blue-900/20 p-3 rounded border border-blue-500/30">
+                                                <h6 class="font-medium text-sm mb-2 flex items-center text-blue-300"><i data-lucide="target" class="w-4 h-4 mr-2"></i>监督学习 (Supervised Learning)</h6>
+                                                <p class="text-sm text-gray-300">像有老师指导一样，给机器提供带有"答案"（标签）的数据进行学习。</p>
+                                            </div>
+                                            <div class="bg-green-900/20 p-3 rounded border border-green-500/30">
+                                                <h6 class="font-medium text-sm mb-2 flex items-center text-green-300"><i data-lucide="search" class="w-4 h-4 mr-2"></i>无监督学习 (Unsupervised Learning)</h6>
+                                                <p class="text-sm text-gray-300">没有"老师"和"答案"，让机器自己在数据中寻找结构和模式。</p>
+                                            </div>
+                                            <div class="bg-amber-900/20 p-3 rounded border border-amber-500/30">
+                                                <h6 class="font-medium text-sm mb-2 flex items-center text-amber-300"><i data-lucide="trophy" class="w-4 h-4 mr-2"></i>强化学习 (Reinforcement Learning)</h6>
+                                                <p class="text-sm text-gray-300">通过"奖励"和"惩罚"机制，让机器在不断尝试中学习最佳策略。</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 深度学习部分 -->
+                                <div class="bg-tech-card/70 backdrop-blur-sm rounded-lg p-6 border border-tech-primary/30 md:col-span-2">
+                                    <div class="border-l-4 border-indigo-500/50 pl-4">
+                                        <h5 class="font-medium mb-2 text-indigo-200">进阶 - 深度学习 (Deep Learning)</h5>
+                                        <p class="text-sm text-gray-300 mb-3">机器学习的一个强大分支，使用包含多个处理层（深层神经网络）的复杂模型，特别擅长从海量、高维度数据中学习复杂的抽象特征。</p>
+                                        
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <!-- 简化的神经网络图 -->
+                                            <div class="bg-tech-dark/50 p-4 rounded-lg border border-tech-primary/20 mb-2">
+                                                <div class="flex items-center justify-between">
+                                                    <div class="text-center">
+                                                        <div class="flex flex-col space-y-2">
+                                                            <div class="w-8 h-8 bg-blue-900/30 rounded-full mx-auto border border-blue-500/50"></div>
+                                                            <div class="w-8 h-8 bg-blue-900/30 rounded-full mx-auto border border-blue-500/50"></div>
+                                                            <div class="w-8 h-8 bg-blue-900/30 rounded-full mx-auto border border-blue-500/50"></div>
+                                                        </div>
+                                                        <span class="text-xs mt-1 block text-blue-300">输入层</span>
+                                                    </div>
+                                                    <i data-lucide="arrow-right" class="w-4 h-4 text-gray-400"></i>
+                                                    <div class="text-center">
+                                                        <div class="flex flex-col space-y-2">
+                                                            <div class="w-8 h-8 bg-indigo-900/30 rounded-full mx-auto border border-indigo-500/50"></div>
+                                                            <div class="w-8 h-8 bg-indigo-900/30 rounded-full mx-auto border border-indigo-500/50"></div>
+                                                            <div class="w-8 h-8 bg-indigo-900/30 rounded-full mx-auto border border-indigo-500/50"></div>
+                                                        </div>
+                                                        <span class="text-xs mt-1 block text-indigo-300">隐藏层1</span>
+                                                    </div>
+                                                    <i data-lucide="arrow-right" class="w-4 h-4 text-gray-400"></i>
+                                                    <div class="text-center">
+                                                        <div class="flex flex-col space-y-2">
+                                                            <div class="w-8 h-8 bg-purple-900/30 rounded-full mx-auto border border-purple-500/50"></div>
+                                                            <div class="w-8 h-8 bg-purple-900/30 rounded-full mx-auto border border-purple-500/50"></div>
+                                                            <div class="w-8 h-8 bg-purple-900/30 rounded-full mx-auto border border-purple-500/50"></div>
+                                                        </div>
+                                                        <span class="text-xs mt-1 block text-purple-300">隐藏层2</span>
+                                                    </div>
+                                                    <i data-lucide="arrow-right" class="w-4 h-4 text-gray-400"></i>
+                                                    <div class="text-center">
+                                                        <div class="flex flex-col space-y-2">
+                                                            <div class="w-8 h-8 bg-green-900/30 rounded-full mx-auto border border-green-500/50"></div>
+                                                            <div class="w-8 h-8 bg-green-900/30 rounded-full mx-auto border border-green-500/50"></div>
+                                                        </div>
+                                                        <span class="text-xs mt-1 block text-green-300">输出层</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="border border-tech-primary/30 rounded-lg p-4 hover:border-indigo-400 transition bg-tech-card/50 backdrop-blur-sm">
+                                                    <h4 class="font-medium mb-2 flex items-center text-indigo-300"><i data-lucide="layers" class="w-4 h-4 mr-2"></i>深度学习应用领域</h4>
+                                                    <ul class="space-y-1 text-sm text-gray-300">
+                                                        <li class="flex items-start">
+                                                            <i data-lucide="check" class="w-3 h-3 text-indigo-400 mr-1 mt-1"></i>
+                                                            <span>计算机视觉：图像识别、目标检测、图像生成</span>
+                                                        </li>
+                                                        <li class="flex items-start">
+                                                            <i data-lucide="check" class="w-3 h-3 text-indigo-400 mr-1 mt-1"></i>
+                                                            <span>自然语言处理：文本生成、机器翻译、情感分析</span>
+                                                        </li>
+                                                        <li class="flex items-start">
+                                                            <i data-lucide="check" class="w-3 h-3 text-indigo-400 mr-1 mt-1"></i>
+                                                            <span>语音技术：语音识别、语音合成、声纹识别</span>
+                                                        </li>
+                                                        <li class="flex items-start">
+                                                            <i data-lucide="check" class="w-3 h-3 text-indigo-400 mr-1 mt-1"></i>
+                                                            <span>强化学习：自动驾驶、机器人控制、游戏AI</span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-16 animate-on-scroll" data-animation="fade-in">
+                    <h3 class="text-2xl font-bold mb-6 gradient-text">人工智能发展简史</h3>
+                    <div class="relative">
+                        <div class="absolute left-1/2 top-0 bottom-0 -ml-0.5 w-1 bg-tech-primary/30"></div>
+                        <div class="space-y-12">
+                            <!-- 1950-1956：AI的起源 -->
+                            <div class="flex flex-col md:flex-row items-center md:items-start animate-on-scroll" data-animation="fade-right" data-delay="100">
+                                <div class="md:w-1/2 md:pr-8 mb-6 md:mb-0 md:text-right">
+                                    <div class="bg-tech-card/70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-tech-primary/30 inline-block">
+                                        <h4 class="font-semibold text-lg mb-2 text-blue-300">1950-1956：AI的起源</h4>
+                                        <p class="text-gray-300">艾伦·图灵在1950年发表《计算机器与智能》论文，提出著名的"图灵测试"，为人工智能奠定理论基础。1956年，达特茅斯会议正式确立"人工智能"这一术语，标志着AI作为一门学科的诞生。</p>
+                                    </div>
+                                </div>
+                                <div class="w-6 h-6 bg-blue-500 rounded-full border-4 border-tech-dark absolute left-1/2 transform -translate-x-1/2 z-10 flex-shrink-0 flex items-center justify-center glow-effect">
+                                    <span class="text-xs text-white font-bold">1</span>
+                                </div>
+                                <div class="md:w-1/2 md:pl-8"></div>
+                            </div>
+                            
+                            <!-- 1956-1970：初期繁荣 -->
+                            <div class="flex flex-col md:flex-row items-center md:items-start animate-on-scroll" data-animation="fade-left" data-delay="200">
+                                <div class="md:w-1/2 md:pr-8"></div>
+                                <div class="w-6 h-6 bg-indigo-500 rounded-full border-4 border-tech-dark absolute left-1/2 transform -translate-x-1/2 z-10 flex-shrink-0 flex items-center justify-center glow-effect">
+                                    <span class="text-xs text-white font-bold">2</span>
+                                </div>
+                                <div class="md:w-1/2 md:pl-8 mb-6 md:mb-0">
+                                    <div class="bg-tech-card/70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-tech-primary/30 inline-block">
+                                        <h4 class="font-semibold text-lg mb-2 text-indigo-300">1956-1970：初期繁荣</h4>
+                                        <p class="text-gray-300">这一时期诞生了多个里程碑式的AI程序：1957年的"逻辑理论家"能够证明数学定理；1959年的"通用问题求解器"能解决各种形式化问题；1966年的ELIZA程序模拟心理治疗师与人对话。研究者对AI充满乐观，预测机器很快就能实现人类级智能。</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 1970-1980：第一次AI寒冬 -->
+                            <div class="flex flex-col md:flex-row items-center md:items-start animate-on-scroll" data-animation="fade-right" data-delay="300">
+                                <div class="md:w-1/2 md:pr-8 mb-6 md:mb-0 md:text-right">
+                                    <div class="bg-tech-card/70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-tech-primary/30 inline-block">
+                                        <h4 class="font-semibold text-lg mb-2 text-purple-300">1970-1980：第一次AI寒冬</h4>
+                                        <p class="text-gray-300">早期AI面对现实世界复杂问题时遇到严重挫折。计算能力有限、组合爆炸问题、知识表示困难等因素导致研究进展缓慢。1973年，英国莱特希尔报告对AI研究提出尖锐批评，导致研究经费大幅削减，AI进入第一次"寒冬"。</p>
+                                    </div>
+                                </div>
+                                <div class="w-6 h-6 bg-purple-500 rounded-full border-4 border-tech-dark absolute left-1/2 transform -translate-x-1/2 z-10 flex-shrink-0 flex items-center justify-center glow-effect">
+                                    <span class="text-xs text-white font-bold">3</span>
+                                </div>
+                                <div class="md:w-1/2 md:pl-8"></div>
+                            </div>
+                            
+                            <!-- 1980-1987：专家系统兴起 -->
+                            <div class="flex flex-col md:flex-row items-center md:items-start animate-on-scroll" data-animation="fade-left" data-delay="400">
+                                <div class="md:w-1/2 md:pr-8"></div>
+                                <div class="w-6 h-6 bg-cyan-500 rounded-full border-4 border-tech-dark absolute left-1/2 transform -translate-x-1/2 z-10 flex-shrink-0 flex items-center justify-center glow-effect">
+                                    <span class="text-xs text-white font-bold">4</span>
+                                </div>
+                                <div class="md:w-1/2 md:pl-8 mb-6 md:mb-0">
+                                    <div class="bg-tech-card/70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-tech-primary/30 inline-block">
+                                        <h4 class="font-semibold text-lg mb-2 text-cyan-300">1980-1987：专家系统兴起</h4>
+                                        <p class="text-gray-300">专家系统成为AI的主流应用，如MYCIN（医疗诊断）、DENDRAL（化学分析）等。这些系统通过编码专家知识，在特定领域展现出接近人类专家的能力。日本启动"第五代计算机"项目，引发全球AI研究热潮，商业投资大幅增加。</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 1987-1993：第二次AI寒冬 -->
+                            <div class="flex flex-col md:flex-row items-center md:items-start animate-on-scroll" data-animation="fade-right" data-delay="500">
+                                <div class="md:w-1/2 md:pr-8 mb-6 md:mb-0 md:text-right">
+                                    <div class="bg-tech-card/70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-tech-primary/30 inline-block">
+                                        <h4 class="font-semibold text-lg mb-2 text-red-300">1987-1993：第二次AI寒冬</h4>
+                                        <p class="text-gray-300">专家系统维护成本高昂、难以适应变化，且无法处理常识推理。同时，昂贵的Lisp机器被便宜的工作站取代，导致AI公司倒闭潮。第五代计算机等项目未能实现预期目标，AI再次进入低谷期，研究经费和商业投资大幅减少。</p>
+                                    </div>
+                                </div>
+                                <div class="w-6 h-6 bg-red-500 rounded-full border-4 border-tech-dark absolute left-1/2 transform -translate-x-1/2 z-10 flex-shrink-0 flex items-center justify-center glow-effect">
+                                    <span class="text-xs text-white font-bold">5</span>
+                                </div>
+                                <div class="md:w-1/2 md:pl-8"></div>
+                            </div>
+                            
+                            <!-- 1993-2011：机器学习崛起 -->
+                            <div class="flex flex-col md:flex-row items-center md:items-start animate-on-scroll" data-animation="fade-left" data-delay="600">
+                                <div class="md:w-1/2 md:pr-8"></div>
+                                <div class="w-6 h-6 bg-green-500 rounded-full border-4 border-tech-dark absolute left-1/2 transform -translate-x-1/2 z-10 flex-shrink-0 flex items-center justify-center glow-effect">
+                                    <span class="text-xs text-white font-bold">6</span>
+                                </div>
+                                <div class="md:w-1/2 md:pl-8 mb-6 md:mb-0">
+                                    <div class="bg-tech-card/70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-tech-primary/30 inline-block">
+                                        <h4 class="font-semibold text-lg mb-2 text-green-300">1993-2011：机器学习崛起</h4>
+                                        <p class="text-gray-300">AI研究重心从基于规则的方法转向数据驱动的统计学习方法。支持向量机、贝叶斯网络、隐马尔可夫模型等算法取得重要进展。1997年，IBM的深蓝战胜国际象棋世界冠军卡斯帕罗夫；2011年，IBM Watson在智力问答节目《危险边缘》中战胜人类冠军，展示了AI的巨大潜力。</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 2012-2019：深度学习革命 -->
+                            <div class="flex flex-col md:flex-row items-center md:items-start animate-on-scroll" data-animation="fade-right" data-delay="700">
+                                <div class="md:w-1/2 md:pr-8 mb-6 md:mb-0 md:text-right">
+                                    <div class="bg-tech-card/70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-tech-primary/30 inline-block">
+                                        <h4 class="font-semibold text-lg mb-2 text-amber-300">2012-2019：深度学习革命</h4>
+                                        <p class="text-gray-300">2012年，AlexNet在ImageNet图像识别挑战赛中以压倒性优势获胜，标志着深度学习时代的到来。GPU计算能力的提升和大数据的可获取性为深度学习提供了关键支持。2016年，AlphaGo战胜世界围棋冠军李世石，震惊世界。计算机视觉、语音识别、自然语言处理等领域取得突破性进展。</p>
+                                    </div>
+                                </div>
+                                <div class="w-6 h-6 bg-amber-500 rounded-full border-4 border-tech-dark absolute left-1/2 transform -translate-x-1/2 z-10 flex-shrink-0 flex items-center justify-center glow-effect">
+                                    <span class="text-xs text-white font-bold">7</span>
+                                </div>
+                                <div class="md:w-1/2 md:pl-8"></div>
+                            </div>
+                            
+                            <!-- 2020至今：大模型时代 -->
+                            <div class="flex flex-col md:flex-row items-center md:items-start animate-on-scroll" data-animation="fade-left" data-delay="800">
+                                <div class="md:w-1/2 md:pr-8"></div>
+                                <div class="w-6 h-6 bg-emerald-500 rounded-full border-4 border-tech-dark absolute left-1/2 transform -translate-x-1/2 z-10 flex-shrink-0 flex items-center justify-center glow-effect">
+                                    <span class="text-xs text-white font-bold">8</span>
+                                </div>
+                                <div class="md:w-1/2 md:pl-8 mb-6 md:mb-0">
+                                    <div class="bg-tech-card/70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-tech-primary/30 inline-block">
+                                        <h4 class="font-semibold text-lg mb-2 text-emerald-300">2020至今：大模型时代</h4>
+                                        <p class="text-gray-300">大型语言模型(LLM)如GPT系列、BERT、LLaMA等引领AI进入新阶段。2022年，ChatGPT的发布掀起全球AI热潮，展示了AI在自然语言理解与生成方面的惊人能力。多模态大模型如DALL-E、Midjourney能够生成高质量图像，Sora实现视频生成。AI正以前所未有的速度融入社会各领域，同时也引发了关于安全、伦理和监管的深入讨论。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+                <!-- 融合应用 -->
+        <section id="applications" class="py-20 bg-tech-dark">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 animate-on-scroll" data-animation="fade-in">
+                    <h2 class="text-3xl font-bold mb-4 gradient-text">融合应用：智能数据协奏曲</h2>
+                    <p class="text-gray-300 max-w-3xl mx-auto">人工智能与大数据相互赋能，在各行各业创造了丰富多彩的应用场景，正从多个维度重塑我们的社会和生活。</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- 智慧医疗 -->
+                    <div class="bg-tech-card/70 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg border border-tech-primary/30 animate-on-scroll" data-animation="fade-up" data-delay="100">
+                        <div class="h-40 bg-gradient-to-r from-red-500/50 to-pink-500/50 relative">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i data-lucide="heart-pulse" class="w-16 h-16 text-white glow-effect-icon"></i>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-semibold text-xl mb-3 text-red-300">智慧医疗</h3>
+                            <p class="text-gray-300 mb-4">AI与大数据正在改变医疗健康领域的诊断、治疗和管理方式。</p>
+                            <ul class="space-y-2 text-sm text-gray-400">
+                                <li class="flex items-start">
+                                    <i data-lucide="stethoscope" class="w-4 h-4 text-red-400 mr-2 mt-0.5"></i>
+                                    <span><strong class="text-red-300">智能辅助诊断：</strong>利用AI分析医学影像，提高疾病检测准确率</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i data-lucide="pill" class="w-4 h-4 text-red-400 mr-2 mt-0.5"></i>
+                                    <span><strong class="text-red-300">药物研发：</strong>加速候选药物筛选，优化临床试验设计</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i data-lucide="user" class="w-4 h-4 text-red-400 mr-2 mt-0.5"></i>
+                                    <span><strong class="text-red-300">个性化治疗：</strong>根据患者特征制定个性化治疗方案</span>
+                                </li>
+                            </ul>
+                            <div class="mt-6 pt-4 border-t border-red-900/30">
+                                <h4 class="font-medium text-sm mb-2 text-red-300">成功案例</h4>
+                                <p class="text-sm text-gray-400">北京天坛医院的"龙影"大模型可快速生成超过百种疾病的诊断意见，显著提高诊断效率。</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 科研创新 -->
+                    <div class="bg-tech-card/70 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg border border-tech-primary/30 animate-on-scroll" data-animation="fade-up" data-delay="200">
+                        <div class="h-40 bg-gradient-to-r from-blue-500/50 to-cyan-500/50 relative">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i data-lucide="flask-conical" class="w-16 h-16 text-white glow-effect-icon"></i>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-semibold text-xl mb-3 text-blue-300">科研创新</h3>
+                            <p class="text-gray-300 mb-4">AI正成为继理论、实验、计算模拟之后的"第四科学范式"，加速科学发现。</p>
+                            <ul class="space-y-2 text-sm text-gray-400">
+                                <li class="flex items-start">
+                                    <i data-lucide="molecular" class="w-4 h-4 text-blue-400 mr-2 mt-0.5"></i>
+                                    <span><strong class="text-blue-300">材料科学：</strong>预测新材料特性，加速材料开发与筛选</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i data-lucide="dna" class="w-4 h-4 text-blue-400 mr-2 mt-0.5"></i>
+                                    <span><strong class="text-blue-300">生物信息学：</strong>分析蛋白质结构，预测基因功能</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i data-lucide="cloud-sun" class="w-4 h-4 text-blue-400 mr-2 mt-0.5"></i>
+                                    <span><strong class="text-blue-300">气候科学：</strong>整合气候数据，优化气候模型，提供更准确预测</span>
+                                </li>
+                            </ul>
+                            <div class="mt-6 pt-4 border-t border-blue-900/30">
+                                <h4 class="font-medium text-sm mb-2 text-blue-300">成功案例</h4>
+                                <p class="text-sm text-gray-400">AlphaFold 3能够高精度预测生物分子结构，包括蛋白质、核酸和糖类，为药物研发提供关键支持。</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 个性化教育 -->
+                    <div class="bg-tech-card/70 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg border border-tech-primary/30 animate-on-scroll" data-animation="fade-up" data-delay="300">
+                        <div class="h-40 bg-gradient-to-r from-orange-500/50 to-amber-500/50 relative">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i data-lucide="graduation-cap" class="w-16 h-16 text-white glow-effect-icon"></i>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-semibold text-xl mb-3 text-amber-300">个性化教育</h3>
+                            <p class="text-gray-300 mb-4">AI与大数据为每个学习者提供量身定制的学习体验，提高教育效率与质量。</p>
+                            <ul class="space-y-2 text-sm text-gray-400">
+                                <li class="flex items-start">
+                                    <i data-lucide="book-open-check" class="w-4 h-4 text-amber-400 mr-2 mt-0.5"></i>
+                                    <span><strong class="text-amber-300">自适应学习：</strong>根据学生表现动态调整教学内容和难度</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i data-lucide="message-circle-question" class="w-4 h-4 text-amber-400 mr-2 mt-0.5"></i>
+                                    <span><strong class="text-amber-300">智能辅导：</strong>AI导师提供实时解答和个性化指导</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i data-lucide="sparkles" class="w-4 h-4 text-amber-400 mr-2 mt-0.5"></i>
+                                    <span><strong class="text-amber-300">学习分析：</strong>预测学生表现，及早干预潜在问题</span>
+                                </li>
+                            </ul>
+                            <div class="mt-6 pt-4 border-t border-amber-900/30">
+                                <h4 class="font-medium text-sm mb-2 text-amber-300">成功案例</h4>
+                                <p class="text-sm text-gray-400">清华大学利用千亿参数大模型GLM4开发AI助教，实现范例生成、自动出题和智能答疑，提升教学体验。</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 智能制造 -->
+                    <div class="bg-tech-card/70 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg border border-tech-primary/30 animate-on-scroll" data-animation="fade-up" data-delay="400">
+                        <div class="h-40 bg-gradient-to-r from-slate-500/50 to-gray-500/50 relative">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i data-lucide="factory" class="w-16 h-16 text-white glow-effect-icon"></i>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-semibold text-xl mb-3 text-slate-300">智能制造</h3>
+                            <p class="text-gray-300 mb-4">AI和大数据驱动制造业的数字化转型，提升效率、质量和柔性。</p>
+                            <ul class="space-y-2 text-sm text-gray-400">
+                                <li class="flex items-start">
+                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-slate-400 mr-2 mt-0.5"></i>
+                                    <span><strong class="text-slate-300">质量检测：</strong>机器视觉和深度学习快速准确识别缺陷</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i data-lucide="wrench" class="w-4 h-4 text-slate-400 mr-2 mt-0.5"></i>
+                                    <span><strong class="text-slate-300">预测性维护：</strong>分析设备数据预测潜在故障，避免停机</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i data-lucide="gauge" class="w-4 h-4 text-slate-400 mr-2 mt-0.5"></i>
+                                    <span><strong class="text-slate-300">生产优化：</strong>优化生产流程、资源分配和能源消耗</span>
+                                </li>
+                            </ul>
+                            <div class="mt-6 pt-4 border-t border-slate-900/30">
+                                <h4 class="font-medium text-sm mb-2 text-slate-300">成功案例</h4>
+                                <p class="text-sm text-gray-400">汽车制造企业采用AI视觉检测系统，实时检测零部件质量，将误检率降低40%，提高生产效率20%。</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 城市治理 -->
+                    <div class="bg-tech-card/70 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg border border-tech-primary/30 animate-on-scroll" data-animation="fade-up" data-delay="500">
+                        <div class="h-40 bg-gradient-to-r from-emerald-500/50 to-teal-500/50 relative">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i data-lucide="building" class="w-16 h-16 text-white glow-effect-icon"></i>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-semibold text-xl mb-3 text-emerald-300">城市治理</h3>
+                            <p class="text-gray-300 mb-4">利用AI和大数据打造更智能、高效、宜居的城市环境。</p>
+                            <ul class="space-y-2 text-sm text-gray-400">
+                                <li class="flex items-start">
+                                    <i data-lucide="traffic-cone" class="w-4 h-4 text-emerald-400 mr-2 mt-0.5"></i>
+                                    <span><strong class="text-emerald-300">智能交通：</strong>优化交通信号控制，减少拥堵和等待时间</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i data-lucide="shield-alert" class="w-4 h-4 text-emerald-400 mr-2 mt-0.5"></i>
+                                    <span><strong class="text-emerald-300">公共安全：</strong>实时监测与预警，提升应急响应能力</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i data-lucide="grid" class="w-4 h-4 text-emerald-400 mr-2 mt-0.5"></i>
+                                    <span><strong class="text-emerald-300">网格化管理：</strong>精细化城市治理，提高问题解决效率</span>
+                                </li>
+                            </ul>
+                            <div class="mt-6 pt-4 border-t border-emerald-900/30">
+                                <h4 class="font-medium text-sm mb-2 text-emerald-300">成功案例</h4>
+                                <p class="text-sm text-gray-400">通过城市数字孪生技术，某城市实现了城市运营可视化和可预测，提高了资源调度效率，减少了能源浪费。</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 其他应用 -->
+                    <div class="bg-tech-card/70 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg border border-tech-primary/30 animate-on-scroll" data-animation="fade-up" data-delay="600">
+                        <div class="h-40 bg-gradient-to-r from-violet-500/50 to-purple-500/50 relative">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i data-lucide="sparkles" class="w-16 h-16 text-white glow-effect-icon"></i>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-semibold text-xl mb-3 text-purple-300">更多领域</h3>
+                            <p class="text-gray-300 mb-4">AI与大数据的融合应用正渗透到社会的方方面面，创造更多可能。</p>
+                            <ul class="space-y-2 text-sm text-gray-400">
+                                <li class="flex items-start">
+                                    <i data-lucide="banknote" class="w-4 h-4 text-purple-400 mr-2 mt-0.5"></i>
+                                    <span><strong class="text-purple-300">金融科技：</strong>智能风控、算法交易、个性化理财推荐</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i data-lucide="shopping-cart" class="w-4 h-4 text-purple-400 mr-2 mt-0.5"></i>
+                                    <span><strong class="text-purple-300">智能零售：</strong>智慧供应链、精准营销、需求预测</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i data-lucide="car" class="w-4 h-4 text-purple-400 mr-2 mt-0.5"></i>
+                                    <span><strong class="text-purple-300">智能交通：</strong>自动驾驶、交通流量优化、智能调度</span>
+                                </li>
+                            </ul>
+                            <div class="mt-6 pt-4 border-t border-purple-900/30">
+                                <h4 class="font-medium text-sm mb-2 text-purple-300">发展趋势</h4>
+                                <p class="text-sm text-gray-400">跨领域融合将成为主流，AI+X模式将持续深化，为各行业带来创新解决方案和商业模式。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 未来展望 -->
+        <section id="future" class="py-20 bg-tech-dark">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 animate-on-scroll" data-animation="fade-in">
+                    <h2 class="text-3xl font-bold mb-4 gradient-text">未来序章：趋势机遇新疆界 </h2>
+                    <p class="text-gray-300 max-w-3xl mx-auto">站在当前技术发展的节点上，我们可以眺望更远的未来。AI与大数据的发展将引领我们走向何方？</p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-6 gradient-text">技术发展新趋势</h3>
+                        <div class="bg-tech-card/70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-tech-primary/30 ">
+                            <div class="space-y-6">
+                                <div class="flex items-start">
+                                    <div class="w-10 h-10 bg-blue-900/50 rounded-full flex items-center justify-center mr-4 flex-shrink-0 border border-blue-500/30">
+                                        <i data-lucide="brain-circuit" class="w-5 h-5 text-blue-400"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold mb-2 text-blue-300">更强大的AI模型与算法</h4>
+                                        <p class="text-gray-400 text-sm">通用人工智能(AGI)的探索，下一代深度学习向因果推断、常识理解发展，多模态AI融合文本、图像、声音等各种信息源。</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-10 h-10 bg-purple-900/50 rounded-full flex items-center justify-center mr-4 flex-shrink-0 border border-purple-500/30">
+                                        <i data-lucide="database" class="w-5 h-5 text-purple-400"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold mb-2 text-purple-300">数据价值的深度挖掘</h4>
+                                        <p class="text-gray-400 text-sm">数据要素化加速，智能数据管理技术兴起，隐私计算技术普及（联邦学习、多方安全计算、差分隐私），实现在保护隐私的前提下进行联合分析。</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-10 h-10 bg-green-900/50 rounded-full flex items-center justify-center mr-4 flex-shrink-0 border border-green-500/30">
+                                        <i data-lucide="cpu" class="w-5 h-5 text-green-400"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold mb-2 text-green-300">算力的持续突破与泛在化</h4>
+                                        <p class="text-gray-400 text-sm">异构计算与新架构发展（量子计算、光计算等），边缘智能(Edge AI)让计算更靠近数据源，实现更低延迟和更好的隐私保护。</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-10 h-10 bg-amber-900/50 rounded-full flex items-center justify-center mr-4 flex-shrink-0 border border-amber-500/30">
+                                        <i data-lucide="flask-round" class="w-5 h-5 text-amber-400"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold mb-2 text-amber-300">AI for Science (AI驱动的科学发现)</h4>
+                                        <p class="text-gray-400 text-sm">AI成为继理论、实验、计算模拟之后的"第四科学范式"，在材料科学、生物医药、气候变化等领域加速科学发现的进程。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold mb-6 gradient-text">潜在的社会影响</h3>
+                        <div class="bg-tech-card/70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-tech-primary/30">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div class="border-l-2 border-indigo-500/70 pl-4">
+                                    <h4 class="font-semibold mb-2 text-indigo-300">生产力革命</h4>
+                                    <p class="text-gray-400 text-sm">自动化水平大幅提升，替代重复性劳动，同时创造新型工作岗位（如AI训练师、数据科学家、AI伦理师）</p>
+                                </div>
+                                
+                                <div class="border-l-2 border-pink-500/70 pl-4">
+                                    <h4 class="font-semibold mb-2 text-pink-300">个性化浪潮</h4>
+                                    <p class="text-gray-400 text-sm">从教育、医疗到娱乐、购物，服务将更加精准地满足个体需求</p>
+                                </div>
+                                
+                                <div class="border-l-2 border-yellow-500/70 pl-4">
+                                    <h4 class="font-semibold mb-2 text-yellow-300">决策智能化</h4>
+                                    <p class="text-gray-400 text-sm">在城市管理、金融风控、商业运营等方面，基于数据和AI的决策将更加普遍和高效</p>
+                                </div>
+                                
+                                <div class="border-l-2 border-emerald-500/70 pl-4">
+                                    <h4 class="font-semibold mb-2 text-emerald-300">科学探索加速</h4>
+                                    <p class="text-gray-400 text-sm">AI将帮助人类应对气候变化、疾病治疗、能源危机等全球性挑战</p>
+                                </div>
+                                
+                                <div class="border-l-2 border-blue-500/70 pl-4">
+                                    <h4 class="font-semibold mb-2 text-blue-300">人机协同新范式</h4>
+                                    <p class="text-gray-400 text-sm">未来的工作和生活将是人与AI协作共存的模式，AI成为人类能力的增强器</p>
+                                </div>
+                                
+                                <div class="border-l-2 border-purple-500/70 pl-4">
+                                    <h4 class="font-semibold mb-2 text-purple-300">创意与文化的新生</h4>
+                                    <p class="text-gray-400 text-sm">生成式AI(AIGC)为内容创作、艺术设计等领域带来新的工具和可能性</p>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 text-center">
+                                <p class="text-gray-300 italic">"技术是一把双刃剑。在拥抱AI与大数据带来的巨大机遇的同时，我们必须审慎思考并积极应对潜在的风险与挑战。"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                        
+                <div class="mt-16 animate-on-scroll" data-animation="fade-in">
+                    <h3 class="text-2xl font-bold mb-6 text-center gradient-text">未来技术突破时间线预测</h3>
+                    <div class="tech-card rounded-xl p-8 shadow-lg border border-tech-primary/30">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
+                            <!-- 横穿圆圈的连接线 -->
+                            <div class="absolute left-0 right-0 top-10 h-0.5 bg-indigo-600/40 z-0"></div>
+                            
+                            <div class="text-center parallax-element" data-depth="0.1">
+                                <div class="bg-tech-card/80 backdrop-blur-sm rounded-xl shadow-lg p-5 border border-indigo-500/30">
+                                    <div class="w-20 h-20 mx-auto bg-indigo-900/70 rounded-full flex items-center justify-center mb-4 border border-indigo-500/50 relative z-10">
+                                        <span class="text-xl font-bold text-indigo-300">2025</span>
+                                    </div>
+                                    <h4 class="font-medium mb-3 text-indigo-300">近期突破</h4>
+                                    <p class="text-sm text-gray-300">多模态AI成为主流，理解并生成文本、图像、声音等多种形式内容</p>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center parallax-element" data-depth="0.15">
+                                <div class="bg-tech-card/80 backdrop-blur-sm rounded-xl shadow-lg p-5 border border-indigo-500/30">
+                                    <div class="w-20 h-20 mx-auto bg-indigo-900/70 rounded-full flex items-center justify-center mb-4 border border-indigo-500/50 relative z-10">
+                                        <span class="text-xl font-bold text-indigo-300">2030</span>
+                                    </div>
+                                    <h4 class="font-medium mb-3 text-indigo-300">中期发展</h4>
+                                    <p class="text-sm text-gray-300">人工通用智能(AGI)的早期形态出现，在特定领域展示接近人类的推理能力</p>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center parallax-element" data-depth="0.12">
+                                <div class="bg-tech-card/80 backdrop-blur-sm rounded-xl shadow-lg p-5 border border-indigo-500/30">
+                                    <div class="w-20 h-20 mx-auto bg-indigo-900/70 rounded-full flex items-center justify-center mb-4 border border-indigo-500/50 relative z-10">
+                                        <span class="text-xl font-bold text-indigo-300">2035</span>
+                                    </div>
+                                    <h4 class="font-medium mb-3 text-indigo-300">应用突破</h4>
+                                    <p class="text-sm text-gray-300">AI在特定科学领域（如新材料发现、药物设计）实现重大突破</p>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center parallax-element" data-depth="0.18">
+                                <div class="bg-tech-card/80 backdrop-blur-sm rounded-xl shadow-lg p-5 border border-indigo-500/30">
+                                    <div class="w-20 h-20 mx-auto bg-indigo-900/70 rounded-full flex items-center justify-center mb-4 border border-indigo-500/50 relative z-10">
+                                        <span class="text-xl font-bold text-indigo-300">2040</span>
+                                    </div>
+                                    <h4 class="font-medium mb-3 text-indigo-300">远期愿景</h4>
+                                    <p class="text-sm text-gray-300">人机界面革命性突破，脑机接口技术普及，实现思想直接控制</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 伦理与挑战 -->
+        <section id="ethics" class="py-20 bg-tech-dark">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 animate-on-scroll" data-animation="fade-in">
+                    <h2 class="text-3xl font-bold mb-4 gradient-text">智慧边界：伦理道德新挑战</h2>
+                    <p class="text-gray-300 max-w-3xl mx-auto">技术的发展与人类价值观和伦理标准息息相关。在迈向智能未来的道路上，我们需要应对哪些挑战？</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-6 text-red-300">伦理考量与公平性</h3>
+                        <div class="bg-tech-card/70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-tech-primary/30">
+                            <div class="space-y-6">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-red-900/50 flex items-center justify-center mr-4 border border-red-500/30">
+                                        <i data-lucide="alert-triangle" class="w-5 h-5 text-red-400"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-lg mb-2 text-red-300">算法偏见与歧视</h4>
+                                        <p class="text-gray-400 text-sm">训练数据中存在的社会偏见（如性别、种族歧视）、算法设计缺陷等，可能导致在招聘、信贷审批、司法判决等场景下产生不公平结果。</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-purple-900/50 flex items-center justify-center mr-4 border border-purple-500/30">
+                                        <i data-lucide="glasses" class="w-5 h-5 text-purple-400"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-lg mb-2 text-purple-300">透明度与可解释性</h4>
+                                        <p class="text-gray-400 text-sm">许多AI模型如同"黑箱"，难以解释其决策过程。可解释性对建立信任、实现问责、确保公平至关重要，尤其在医疗、金融等高风险领域。</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-blue-900/50 flex items-center justify-center mr-4 border border-blue-500/30">
+                                        <i data-lucide="scale" class="w-5 h-5 text-blue-400"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-lg mb-2 text-blue-300">责任与问责</h4>
+                                        <p class="text-gray-400 text-sm">当自动驾驶汽车发生事故、AI医疗诊断失误时，责任归属问题：开发者？使用者？所有者？还是AI本身？需要建立清晰的责任框架。</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-amber-900/50 flex items-center justify-center mr-4 border border-amber-500/30">
+                                        <i data-lucide="hand" class="w-5 h-5 text-amber-400"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-lg mb-2 text-amber-300">自主性与人类控制</h4>
+                                        <p class="text-gray-400 text-sm">如何在赋予AI系统自主性的同时，确保人类始终拥有最终的控制权？"人在回路"(Human-in-the-loop)设计可让人类在关键节点进行监督和决策。</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-8 p-4 bg-tech-dark/80 rounded-lg border border-tech-primary/20">
+                                <h4 class="font-medium mb-3 text-center text-gray-300">思考：AI伦理困境</h4>
+                                <p class="text-sm text-gray-400 mb-4">自动驾驶汽车在紧急情况下，应该优先保护车内乘客还是路人？</p>
+                                <div class="flex space-x-3">
+                                    <button id="protect-passenger-btn" class="ethics-button px-4 py-2 rounded-md text-sm flex-1">优先保护乘客</button>
+                                    <button id="protect-pedestrian-btn" class="ethics-button px-4 py-2 rounded-md text-sm flex-1">优先保护路人</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-2xl font-bold mb-6 text-emerald-300">安全、隐私与治理</h3>
+                        <div class="bg-tech-card/70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-tech-primary/30">
+                            <div class="space-y-6">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-green-900/50 flex items-center justify-center mr-4 border border-green-500/30">
+                                        <i data-lucide="shield" class="w-5 h-5 text-green-400"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-lg mb-2 text-green-300">数据隐私保护</h4>
+                                        <p class="text-gray-400 text-sm">大规模数据收集增加了个人隐私信息被泄露、滥用的风险。应对措施包括法律法规（如GDPR、《个人信息保护法》）、技术手段（数据脱敏、匿名化）、隐私增强技术（联邦学习、差分隐私）。</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-red-900/50 flex items-center justify-center mr-4 border border-red-500/30">
+                                        <i data-lucide="shield-x" class="w-5 h-5 text-red-400"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-lg mb-2 text-red-300">数据与模型安全</h4>
+                                        <p class="text-gray-400 text-sm">主要威胁包括数据泄露/篡改、对抗性攻击（欺骗AI做出错误判断）、模型窃取/投毒等。需加强网络安全防护、进行模型鲁棒性训练、部署入侵检测系统。</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-orange-900/50 flex items-center justify-center mr-4 border border-orange-500/30">
+                                        <i data-lucide="message-square-off" class="w-5 h-5 text-orange-400"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-lg mb-2 text-orange-300">信息茧房与社会操纵</h4>
+                                        <p class="text-gray-400 text-sm">个性化推荐算法可能将用户限制在狭窄的信息范围内，加剧观点极化；AI生成的虚假信息(Deepfakes)可能被用于操纵舆论。如何平衡个性化与信息多样性是一大挑战。</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-blue-900/50 flex items-center justify-center mr-4 border border-blue-500/30">
+                                        <i data-lucide="gavel" class="w-5 h-5 text-blue-400"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-lg mb-2 text-blue-300">人工智能治理</h4>
+                                        <p class="text-gray-400 text-sm">建立一套规则、规范、标准和实践，确保AI和大数据技术的研发与应用负责任、合乎伦理、安全可控，包括伦理原则、法律法规、技术标准、监管机制和社会参与等要素。</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-8 grid grid-cols-2 gap-4">
+                                <div class="p-4 bg-green-900/30 rounded-lg border border-green-500/20">
+                                    <h4 class="font-medium mb-2 text-green-300 text-center text-sm">隐私保护技术</h4>
+                                    <ul class="text-xs text-gray-400 space-y-1.5">
+                                        <li class="flex items-center">
+                                            <i data-lucide="check-circle" class="w-3.5 h-3.5 text-green-400 mr-1.5 flex-shrink-0"></i>
+                                            <span>数据脱敏与匿名化</span>
+                                        </li>
+                                        <li class="flex items-center">
+                                            <i data-lucide="check-circle" class="w-3.5 h-3.5 text-green-400 mr-1.5 flex-shrink-0"></i>
+                                            <span>联邦学习（分布式训练）</span>
+                                        </li>
+                                        <li class="flex items-center">
+                                            <i data-lucide="check-circle" class="w-3.5 h-3.5 text-green-400 mr-1.5 flex-shrink-0"></i>
+                                            <span>差分隐私机制</span>
+                                        </li>
+                                        <li class="flex items-center">
+                                            <i data-lucide="check-circle" class="w-3.5 h-3.5 text-green-400 mr-1.5 flex-shrink-0"></i>
+                                            <span>同态加密</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="p-4 bg-blue-900/30 rounded-lg border border-blue-500/20">
+                                    <h4 class="font-medium mb-2 text-blue-300 text-center text-sm">AI治理框架要素</h4>
+                                    <ul class="text-xs text-gray-400 space-y-1.5">
+                                        <li class="flex items-center">
+                                            <i data-lucide="check-circle" class="w-3.5 h-3.5 text-blue-400 mr-1.5 flex-shrink-0"></i>
+                                            <span>伦理原则（公平、透明、问责）</span>
+                                        </li>
+                                        <li class="flex items-center">
+                                            <i data-lucide="check-circle" class="w-3.5 h-3.5 text-blue-400 mr-1.5 flex-shrink-0"></i>
+                                            <span>法律法规与标准化</span>
+                                        </li>
+                                        <li class="flex items-center">
+                                            <i data-lucide="check-circle" class="w-3.5 h-3.5 text-blue-400 mr-1.5 flex-shrink-0"></i>
+                                            <span>技术安全与审计机制</span>
+                                        </li>
+                                        <li class="flex items-center">
+                                            <i data-lucide="check-circle" class="w-3.5 h-3.5 text-blue-400 mr-1.5 flex-shrink-0"></i>
+                                            <span>多方参与与社会监督</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 结语 -->
+        <section id="conclusion" class="py-20 bg-tech-dark">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 animate-on-scroll" data-animation="fade-in">
+                    <h2 class="text-3xl font-bold mb-4 gradient-text">结语：拥抱智慧，共塑未来</h2>
+                </div>
+                
+                <div class="bg-tech-card/70 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-tech-primary/30 animate-on-scroll" data-animation="fade-up">
+                    <div class="max-w-3xl mx-auto">
+                        <p class="text-gray-300 mb-6">人工智能与大数据是这个时代最强大的赋能力量之一。它们既带来了无限的机遇，也伴随着深刻的挑战。理解技术的潜力，正视其风险，进行开放的讨论，并建立有效的治理框架，是我们共同的责任。</p>
+                        
+                        <div class="border-l-4 border-tech-primary/50 pl-5 italic my-8">
+                            <p class="text-gray-300">"预测未来的最好方法就是去创造未来。"</p>
+                            <p class="text-gray-400 text-sm mt-2">—— 艾伦·凯 (Alan Kay)</p>
+                        </div>
+                        
+                        <p class="text-gray-300">唯有以审慎、包容和负责任的态度，我们才能确保技术的发展方向符合人类的长远福祉，共同塑造一个更加智能、公平和可持续的「数智未来」。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 受众模态框 -->
+        <div id="audience-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center backdrop-blur-sm">
+            <div class="bg-tech-card/90 backdrop-blur-md rounded-xl max-w-2xl w-full p-6 relative border border-tech-primary/30 shadow-lg">
+                <button id="close-audience-modal" class="absolute top-4 right-4 text-gray-300 hover:text-white transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+                
+                <h2 class="text-2xl font-bold mb-6 gradient-text">展厅受众人群</h2>
+                
+                <div class="space-y-6">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-blue-900/40 flex items-center justify-center flex-shrink-0 border border-blue-500/30">
+                            <i data-lucide="graduation-cap" class="w-6 h-6 text-blue-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold mb-1 text-blue-300">大学生</h3>
+                            <p class="text-gray-300 text-sm">无论是专业为计算机科学、人工智能的学生，还是其他专业但对技术感兴趣的学生，展厅都提供了AI和大数据的基础知识和应用场景，帮助他们了解这些技术如何影响他们的专业领域和未来职业发展。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-green-900/40 flex items-center justify-center flex-shrink-0 border border-green-500/30">
+                            <i data-lucide="landmark" class="w-6 h-6 text-green-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold mb-1 text-green-300">公共事业</h3>
+                            <p class="text-gray-300 text-sm">为决策者提供关于人工智能和大数据在城市治理、公共服务等领域的应用案例和潜力展示，帮助他们了解如何将这些技术应用于提升政府效能和公共服务质量。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-purple-900/40 flex items-center justify-center flex-shrink-0 border border-purple-500/30">
+                            <i data-lucide="microscope" class="w-6 h-6 text-purple-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold mb-1 text-purple-300">专家学者</h3>
+                            <p class="text-gray-300 text-sm">为各领域的专家学者展示AI与大数据如何与传统学科交叉融合，促进跨学科合作与创新。展厅的内容既有技术深度，也有应用广度，满足不同学科背景专家的需求。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-amber-900/40 flex items-center justify-center flex-shrink-0 border border-amber-500/30">
+                            <i data-lucide="school" class="w-6 h-6 text-amber-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold mb-1 text-amber-300">教育工作者</h3>
+                            <p class="text-gray-300 text-sm">为教师和教育管理者提供关于智能教育的最新发展趋势和实践案例，帮助他们了解如何将AI和大数据技术融入教育教学，提升教育质量和个性化水平。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 优先保护乘客模态框 -->
+        <div id="passenger-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center backdrop-blur-sm">
+            <div class="bg-tech-card/90 backdrop-blur-md rounded-xl max-w-2xl w-full p-6 relative border border-tech-primary/30 shadow-lg">
+                <button id="close-passenger-modal" class="absolute top-4 right-4 text-gray-300 hover:text-white transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+                
+                <h2 class="text-2xl font-bold mb-6 gradient-text">优先保护乘客的伦理分析</h2>
+                
+                <div class="space-y-6">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-blue-900/40 flex items-center justify-center flex-shrink-0 border border-blue-500/30">
+                            <i data-lucide="shield" class="w-6 h-6 text-blue-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold mb-1 text-blue-300">功利主义视角</h3>
+                            <p class="text-gray-300 text-sm">从功利主义角度看，保护乘客可能会导致更少的总体伤亡，因为车辆可能载有多名乘客，而路人可能只有一人。此外，如果消费者知道自动驾驶汽车会优先保护他们，可能会促进这项技术的更广泛采用，从长远来看可能会减少总体交通事故。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-amber-900/40 flex items-center justify-center flex-shrink-0 border border-amber-500/30">
+                            <i data-lucide="scale" class="w-6 h-6 text-amber-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold mb-1 text-amber-300">契约论视角</h3>
+                            <p class="text-gray-300 text-sm">从契约论角度看，乘客与汽车制造商之间存在隐含的"契约"，即购买和使用汽车时，乘客期望汽车会保护他们的安全。这种观点认为，汽车应该优先考虑乘客的安全，因为这是乘客选择使用该汽车时的合理期望。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-red-900/40 flex items-center justify-center flex-shrink-0 border border-red-500/30">
+                            <i data-lucide="alert-triangle" class="w-6 h-6 text-red-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold mb-1 text-red-300">潜在问题</h3>
+                            <p class="text-gray-300 text-sm">这种选择可能会导致社会不平等问题，因为它可能被解读为"富人的生命比穷人更有价值"（假设乘坐自动驾驶汽车的人更富有）。此外，如果所有自动驾驶汽车都优先保护乘客，可能会导致行人安全受到系统性忽视。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 优先保护路人模态框 -->
+        <div id="pedestrian-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center backdrop-blur-sm">
+            <div class="bg-tech-card/90 backdrop-blur-md rounded-xl max-w-2xl w-full p-6 relative border border-tech-primary/30 shadow-lg">
+                <button id="close-pedestrian-modal" class="absolute top-4 right-4 text-gray-300 hover:text-white transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+                
+                <h2 class="text-2xl font-bold mb-6 gradient-text">优先保护路人的伦理分析</h2>
+                
+                <div class="space-y-6">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-green-900/40 flex items-center justify-center flex-shrink-0 border border-green-500/30">
+                            <i data-lucide="users" class="w-6 h-6 text-green-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold mb-1 text-green-300">公平正义视角</h3>
+                            <p class="text-gray-300 text-sm">从公平正义角度看，路人没有选择参与这种风险，而乘客则是自愿选择乘坐汽车并接受相关风险。因此，保护那些没有选择参与风险的人（路人）可能更为公平。这种观点认为，不应该将风险转嫁给那些没有从自动驾驶技术中直接受益的人。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-purple-900/40 flex items-center justify-center flex-shrink-0 border border-purple-500/30">
+                            <i data-lucide="heart" class="w-6 h-6 text-purple-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold mb-1 text-purple-300">社会责任视角</h3>
+                            <p class="text-gray-300 text-sm">从社会责任角度看，自动驾驶技术的开发者和使用者有责任确保这项技术不会增加公共空间中其他人的风险。优先保护路人体现了对社会整体安全的关注，可能有助于建立公众对自动驾驶技术的信任。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-red-900/40 flex items-center justify-center flex-shrink-0 border border-red-500/30">
+                            <i data-lucide="alert-triangle" class="w-6 h-6 text-red-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold mb-1 text-red-300">潜在问题</h3>
+                            <p class="text-gray-300 text-sm">这种选择可能会阻碍自动驾驶技术的普及，因为消费者可能不愿意购买可能会"牺牲"他们的汽车。此外，这种编程可能会导致一些道德困境，例如在不可避免的事故中，汽车可能会被编程为"选择"伤害乘客，这引发了关于人工智能是否应该被允许做出这类决定的深层次伦理问题。</p>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-8 bg-tech-card backdrop-blur-md border-t border-tech-primary/30">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center">
+                        <span class="text-sm text-gray-300">© 2025 数智未来·在线科普展厅</span>
+                    </div>
+                </div>
+                
+                <div class="text-sm text-center md:text-right text-gray-300">
+                    <span class="inline-flex items-center"><img src="./logo.png" alt="数族科技Logo" class="h-5 mr-1" style="vertical-align: middle;"><a href="https://www.shuzutech.com" target="_blank" class="text-tech-primary hover:text-tech-primary/80 transition">数融智联</a></span>                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./script.js"></script>        <!-- 添加图表库 -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>    
+        <script>
+            // 初始化图表
+            document.addEventListener('DOMContentLoaded', function() {
+                // 数据增长图表
+                const chartDom = document.getElementById('data-growth-chart');
+                const myChart = echarts.init(chartDom);
+                
+                const years = ['2010', '2015', '2020', '2023', '2025(预计)', '2028(预计)'];
+                const dataVolume = [2, 15.5, 64.2, 120, 181, 394];
+                const growthRate = [0, 13.5, 48.7, 55.8, 61, 213];
+                
+                const option = {
+                    title: {
+                        text: '全球数据量增长趋势 (2010-2028)',
+                        left: 'center',
+                        top: 10
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'shadow'
+                        },
+                        formatter: function(params) {
+                            const year = params[0].name;
+                            let html = `<div style="font-weight:bold;margin-bottom:5px;">${year}</div>`;
+                            
+                            params.forEach(item => {
+                                const colorSpan = `<span style="display:inline-block;margin-right:5px;width:10px;height:10px;border-radius:50%;background-color:${item.color};"></span>`;
+                                html += `${colorSpan}${item.seriesName}: ${item.value} ZB<br/>`;
+                            });
+                            
+                            return html;
+                        }
+                    },
+                    legend: {
+                        data: ['全球数据量 (ZB)', '年增长量 (ZB)'],
+                        bottom: 10
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '15%',
+                        top: '15%',
+                        containLabel: true
+                    },
+                    xAxis: {
+                        type: 'category',
+                        data: years,
+                        axisLabel: {
+                            rotate: 0
+                        }
+                    },
+                    yAxis: {
+                        type: 'value',
+                        name: '数据量 (ZB)',
+                        axisLine: {
+                            show: true
+                        },
+                        splitLine: {
+                            lineStyle: {
+                                type: 'dashed'
+                            }
+                        }
+                    },
+                    series: [
+                        {
+                            name: '全球数据量 (ZB)',
+                            type: 'bar',
+                            data: dataVolume,
+                            itemStyle: {
+                                color: '#3b82f6'
+                            },
+                            emphasis: {
+                                itemStyle: {
+                                    color: '#2563eb'
+                                }
+                            },
+                            barWidth: '40%',
+                            label: {
+                                show: true,
+                                position: 'top',
+                                formatter: '{c} ZB'
+                            }
+                        },
+                        {
+                            name: '年增长量 (ZB)',
+                            type: 'line',
+                            data: growthRate,
+                            symbol: 'circle',
+                            symbolSize: 8,
+                            itemStyle: {
+                                color: '#ef4444'
+                            },
+                            lineStyle: {
+                                width: 3,
+                                type: 'solid'
+                            },
+                            emphasis: {
+                                lineStyle: {
+                                    width: 5
+                                }
+                            }
+                        }
+                    ],
+                    animationDuration: 2000,
+                    animationEasing: 'cubicOut'
+                };
+                
+                myChart.setOption(option);
+                
+                // 响应窗口大小变化
+                window.addEventListener('resize', function() {
+                    myChart.resize();
+                });
+                
+                // 表格切换显示
+                const toggleBtn = document.getElementById('toggle-view');
+                const dataTable = document.getElementById('data-table');
+                
+                toggleBtn.addEventListener('click', function() {
+                    if (dataTable.classList.contains('hidden')) {
+                        dataTable.classList.remove('hidden');
+                        toggleBtn.textContent = '隐藏详细数据表格';
+                    } else {
+                        dataTable.classList.add('hidden');
+                        toggleBtn.textContent = '查看详细数据表格';
+                    }
+                });
+            });
+        </script>
+            <!-- 在 body 结束标签前添加 -->
+    <script>
+        // 初始化 AOS 动画库
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out',
+            once: true
+        });
+        
+        // 初始化粒子背景
+        if (typeof particlesJS !== 'undefined') {
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 80, density: { enable: true, value_area: 800 } },
+                    color: { value: "#3b82f6" },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.5, random: true },
+                    size: { value: 3, random: true },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#3b82f6",
+                        opacity: 0.4,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 2,
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: { enable: true, mode: "grab" },
+                        onclick: { enable: true, mode: "push" },
+                        resize: true
+                    },
+                    modes: {
+                        grab: { distance: 140, line_linked: { opacity: 1 } },
+                        push: { particles_nb: 4 }
+                    }
+                },
+                retina_detect: true
+            });
+        }
+    </script>
+
+    <script>
+    // 初始化图表
+    document.addEventListener('DOMContentLoaded', function() {
+        // 现有代码...
+        
+        // AI伦理困境模态框交互
+        const protectPassengerBtn = document.getElementById('protect-passenger-btn');
+        const protectPedestrianBtn = document.getElementById('protect-pedestrian-btn');
+        const passengerModal = document.getElementById('passenger-modal');
+        const pedestrianModal = document.getElementById('pedestrian-modal');
+        const closePassengerModal = document.getElementById('close-passenger-modal');
+        const closePedestrianModal = document.getElementById('close-pedestrian-modal');
+        
+        // 优先保护乘客按钮点击事件
+        protectPassengerBtn.addEventListener('click', function() {
+            passengerModal.classList.remove('hidden');
+            // 初始化图标
+            lucide.createIcons();
+        });
+        
+        // 优先保护路人按钮点击事件
+        protectPedestrianBtn.addEventListener('click', function() {
+            pedestrianModal.classList.remove('hidden');
+            // 初始化图标
+            lucide.createIcons();
+        });
+        
+        // 关闭模态框事件
+        closePassengerModal.addEventListener('click', function() {
+            passengerModal.classList.add('hidden');
+        });
+        
+        closePedestrianModal.addEventListener('click', function() {
+            pedestrianModal.classList.add('hidden');
+        });
+        
+        // 点击模态框外部关闭
+        passengerModal.addEventListener('click', function(e) {
+            if (e.target === passengerModal) {
+                passengerModal.classList.add('hidden');
+            }
+        });
+        
+        pedestrianModal.addEventListener('click', function(e) {
+            if (e.target === pedestrianModal) {
+                pedestrianModal.classList.add('hidden');
+            }
+        });
+    });
+    </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // ... 现有代码 ...
+        
+        // 按钮交替闪烁效果
+        const passengerBtn = document.getElementById('protect-passenger-btn');
+        const pedestrianBtn = document.getElementById('protect-pedestrian-btn');
+        
+        // 初始状态，先让乘客按钮闪烁
+        passengerBtn.classList.add('button-pulse');
+        let isPassengerActive = true;
+        
+        // 存储interval ID以便后续清除
+        const pulseInterval = setInterval(function() {
+            if (isPassengerActive) {
+                passengerBtn.classList.remove('button-pulse');
+                pedestrianBtn.classList.add('button-pulse');
+            } else {
+                pedestrianBtn.classList.remove('button-pulse');
+                passengerBtn.classList.add('button-pulse');
+            }
+            isPassengerActive = !isPassengerActive;
+        }, 3000); // 每3秒交替一次
+        
+        // 当用户点击任一按钮后，停止闪烁效果
+        function stopPulseEffect() {
+            passengerBtn.classList.remove('button-pulse');
+            pedestrianBtn.classList.remove('button-pulse');
+            clearInterval(pulseInterval);
+        }
+        
+        passengerBtn.addEventListener('click', stopPulseEffect);
+        pedestrianBtn.addEventListener('click', stopPulseEffect);
+    });
+    </script>
+</body>
+</html>
