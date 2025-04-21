@@ -32,17 +32,17 @@
 
 ```bash
 # 克隆仓库
-git clone https://github.com/yourusername/digital-future-exhibition.git
+git clone https://github.com/im-286/250411kpzt.git
 
 # 进入项目目录
-cd digital-future-exhibition
+cd 250411kpzt
 
 # 使用浏览器打开
 open index.html
 
 ## 项目结构
 ```plaintext
-digital-future-exhibition/
+250411kpzt/
 ├── index.html          # 主页面
 ├── styles.css          # 样式文件
 ├── script.js           # 交互脚本
